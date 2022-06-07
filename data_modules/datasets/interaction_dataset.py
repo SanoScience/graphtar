@@ -2,11 +2,9 @@ import pandas as pd
 import torch
 from torch.utils.data import Dataset
 
-from data_modules.datasets.transforms.merge import Merge
-
 
 class InteractionDataset(Dataset):
-    def __init__(self, csv_file_path: str, transform = None):
+    def __init__(self, csv_file_path: str, transform=None):
         self.data_df = pd.read_csv(csv_file_path, index_col=0)
         self.transform = transform
 
@@ -21,8 +19,3 @@ class InteractionDataset(Dataset):
         if self.transform:
             sample = self.transform(sample)
         return sample
-
-
-dataset = InteractionDataset("../../data/MirTarRAW.csv", transform=Merge('merged_sequences'))
-
-print(dataset[0:100])
