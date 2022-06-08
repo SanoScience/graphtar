@@ -10,5 +10,9 @@ class Merge(object):
         self.keys_to_merge = keys_to_merge
 
     def __call__(self, sample):
-        merged_sequences = np.add(sample[self.keys_to_merge[0]], sample[self.keys_to_merge[1]])
-        return {self.merged_key: merged_sequences, 'label': sample['label']}
+        merged_sequences = np.add(sample[self.keys_to_merge[0]].astype(object),
+                                  sample[self.keys_to_merge[1]].astype(object))
+        sample[self.merged_key] = merged_sequences
+        for key in self.keys_to_merge:
+            sample.pop(key, None)
+        return sample

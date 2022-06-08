@@ -1,3 +1,4 @@
+import numpy as np
 import pandas as pd
 import torch
 from torch.utils.data import Dataset
@@ -14,8 +15,14 @@ class InteractionDataset(Dataset):
     def __getitem__(self, idx):
         if torch.is_tensor(idx):
             idx = idx.tolist()
-        item = self.data_df.iloc[idx, [1, 3, 4]].to_numpy()
-        sample = {'mirna': item[:, 0], 'target': item[:, 1], 'label': item[:, 2]}
+            mirna = self.data_df.iloc[idx, 1].to_numpy()
+            target = self.data_df.iloc[idx, 3].to_numpy()
+            label = self.data_df.iloc[idx, 4].to_numpy()
+        else:
+            mirna = np.expand_dims(np.array(self.data_df.iloc[idx, 1]), axis=0)
+            target = np.expand_dims(np.array(self.data_df.iloc[idx, 3]), axis=0)
+            label = np.expand_dims(np.array(self.data_df.iloc[idx, 4]), axis=0)
+        sample = {'mirna': mirna, 'target': target, 'label': label}
         if self.transform:
             sample = self.transform(sample)
         return sample

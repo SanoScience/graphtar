@@ -8,7 +8,7 @@ class Pad(object):
         self.padding_char = padding_char
 
     def __call__(self, sample):
-        assert self.target_length >= len(sample[self.key_to_pad])
+        assert self.target_length >= len(max(sample[self.key_to_pad], key=len))
         padding_func = np.vectorize(self.pad_array_element)
 
         sample[self.key_to_pad] = padding_func(sample[self.key_to_pad])
