@@ -6,11 +6,11 @@ class ANN(nn.Module):
         super().__init__()
         self.encoder = encoder
         self.classifier = nn.Sequential(
-            nn.Linear(50, 25),
+            nn.Linear(100, 50),
             nn.ReLU(),
-            nn.Linear(25, 25),
+            nn.Linear(50, 50),
             nn.ReLU(),
-            nn.Linear(25, 2)
+            nn.Linear(50, 1)
         )
 
     def forward(self, x):
