@@ -5,27 +5,27 @@ class Autoencoder(nn.Module):
     def __init__(self):
         super().__init__()
         self.encoder = nn.Sequential(
-            nn.Linear(120, 200),
+            nn.Linear(350, 400),
             nn.ReLU(),
-            nn.Linear(200, 175),
+            nn.Linear(400, 350),
             nn.ReLU(),
-            nn.Linear(175, 150),
+            nn.Linear(350, 300),
             nn.ReLU(),
-            nn.Linear(150, 75),
+            nn.Linear(300, 150),
             nn.ReLU(),
-            nn.Linear(75, 50),
+            nn.Linear(150, 100),
             nn.ReLU()
         )
         self.decoder = nn.Sequential(
-            nn.Linear(50, 75),
+            nn.Linear(100, 150),
             nn.ReLU(),
-            nn.Linear(75, 150),
+            nn.Linear(150, 300),
             nn.ReLU(),
-            nn.Linear(150, 175),
+            nn.Linear(300, 350),
             nn.ReLU(),
-            nn.Linear(175, 200),
+            nn.Linear(350, 400),
             nn.ReLU(),
-            nn.Linear(200, 120),
+            nn.Linear(400, 350),
         )
 
     def forward(self, x):
