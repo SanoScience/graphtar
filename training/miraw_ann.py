@@ -8,6 +8,7 @@ data_module = InteractionDataModule("../data/miRAW.csv", batch_size=128, train_v
 x_key, y_key = data_module.get_batch_keys()
 
 autoencoder = torch.load("autoencoder.pt")
-model = MirawANN(x_key, y_key, encoder=autoencoder.model.encoder)
+module = MirawANN(x_key, y_key, encoder=autoencoder.model.encoder)
+module.model.encoder.requires_grad_(False)
 trainer = Trainer(accelerator='gpu', max_epochs=100, limit_train_batches=0.1, limit_test_batches=0.1)
-trainer.fit(model, datamodule=data_module)
+trainer.fit(module, datamodule=data_module)
