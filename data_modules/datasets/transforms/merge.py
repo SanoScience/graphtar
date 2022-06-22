@@ -16,3 +16,6 @@ class Merge(object):
         for key in self.keys_to_merge:
             sample.pop(key, None)
         return sample
+
+    def to_json(self):
+        return {'merged_key': self.merged_key, 'keys_to_merge': self.keys_to_merge}

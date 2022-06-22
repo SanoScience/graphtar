@@ -1,4 +1,5 @@
 from typing import Dict
+
 import numpy as np
 
 
@@ -15,3 +16,6 @@ class ToOneHot(object):
 
     def one_hot_encode(self, word):
         return [np.eye(max(self.encoding_dict.values()) + 1)[self.encoding_dict[char]] for char in word]
+
+    def to_json(self):
+        return {'encoding_dict': self.encoding_dict, 'key_to_encode': self.key_to_encode}

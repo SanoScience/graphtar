@@ -11,3 +11,7 @@ class ToTensor(object):
         for key in self.keys:
             sample[key] = torch.from_numpy(sample[key]).float()
         return sample
+
+
+def to_json(self):
+    return {'keys': self.keys}
