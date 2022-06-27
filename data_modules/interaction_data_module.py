@@ -5,7 +5,7 @@ from typing import Optional
 import pytorch_lightning as pl
 from torch.utils.data import random_split, DataLoader
 
-from data_modules.configuration.dataset_config import DatasetConfigDecoder, DatasetConfig
+from data_modules.configs.dataset_config import DatasetConfigDecoder, DatasetConfig
 from data_modules.datasets.interaction_dataset import InteractionDataset
 
 

@@ -6,6 +6,15 @@ from torchvision.transforms.transforms import Compose
 
 from data_modules.datasets.transforms.json_serializable import JSONSerializable
 
+# noinspection PyUnresolvedReferences
+from data_modules.datasets.transforms.merge import Merge
+# noinspection PyUnresolvedReferences
+from data_modules.datasets.transforms.pad import Pad
+# noinspection PyUnresolvedReferences
+from data_modules.datasets.transforms.to_one_hot import ToOneHot
+# noinspection PyUnresolvedReferences
+from data_modules.datasets.transforms.to_tensor import ToTensor
+
 
 class DatasetConfig(TypedDict):
     csv_path: str
