@@ -2,8 +2,10 @@ from typing import Tuple
 
 import numpy as np
 
+from data_modules.datasets.transforms.json_serializable import JSONSerializable
 
-class Merge(object):
+
+class Merge(JSONSerializable, object):
     def __init__(self, merged_key: str, keys_to_merge: Tuple[str, str]):
         self.merged_key = merged_key
         assert len(keys_to_merge) == 2

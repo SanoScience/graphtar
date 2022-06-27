@@ -2,8 +2,10 @@ from typing import Dict
 
 import numpy as np
 
+from data_modules.datasets.transforms.json_serializable import JSONSerializable
 
-class ToOneHot(object):
+
+class ToOneHot(JSONSerializable, object):
     def __init__(self, encoding_dict: Dict[str, int], key_to_encode: str):
         self.encoding_dict = encoding_dict
         self.key_to_encode = key_to_encode

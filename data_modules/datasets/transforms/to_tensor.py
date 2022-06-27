@@ -2,8 +2,10 @@ from typing import Tuple
 
 import torch
 
+from data_modules.datasets.transforms.json_serializable import JSONSerializable
 
-class ToTensor(object):
+
+class ToTensor(JSONSerializable, object):
     def __init__(self, keys: Tuple[str, str]):
         self.keys = keys
 
@@ -12,6 +14,5 @@ class ToTensor(object):
             sample[key] = torch.from_numpy(sample[key]).float()
         return sample
 
-
-def to_json(self):
-    return {'keys': self.keys}
+    def to_json(self):
+        return {'keys': self.keys}
