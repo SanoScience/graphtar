@@ -3,7 +3,7 @@ import torch
 import torch.nn.functional as F
 import torch.nn as nn
 
-from lightning_modules.models.deepmirtar.DenoisingAutoencoder import DenoisingAutoencoder
+from lightning_modules.models.deepmirtar.denoising_autoencoder import DenoisingAutoencoder
 
 
 class SdAutoencoderLM(pl.LightningModule):
@@ -19,8 +19,9 @@ class SdAutoencoderLM(pl.LightningModule):
         return x
 
     def get_intermediate_x(self, x):
-        for module in self.sda[:-1]:
-            x = module(x)
+        with torch.no_grad():
+            for module in self.sda[:-1]:
+                x = module.encoder(x)
         return x
 
     def training_step(self, batch, batch_idx):
