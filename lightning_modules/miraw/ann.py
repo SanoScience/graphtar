@@ -5,7 +5,7 @@ import torch.nn.functional as F
 from lightning_modules.models.miraw.ann import ANN
 
 
-class MirawANN(pl.LightningModule):
+class AnnLM(pl.LightningModule):
     def __init__(self, x_key, y_key, encoder: torch.nn.Module):
         super().__init__()
         self.x_key = x_key

@@ -5,7 +5,7 @@ import torch.nn.functional as F
 from lightning_modules.models.miraw.autoencoder import Autoencoder
 
 
-class MirawAutoencoderLM(pl.LightningModule):
+class AutoencoderLM(pl.LightningModule):
     def __init__(self, x_key, y_key):
         super().__init__()
         self.x_key = x_key
