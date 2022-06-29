@@ -4,13 +4,16 @@ import torch.nn as nn
 class MitarNet(nn.Module):
     def __init__(self, n_embeddings: int):
         super().__init__()
-        self.embedding = nn.Embedding(n_embeddings, 5)
+        kernel_size = 12
+        embedding_dim = 5
+        self.embedding = nn.Embedding(n_embeddings, embedding_dim)
         self.conv = nn.Sequential(
-            nn.Conv1d(5, 320, 12),
+            nn.Conv1d(embedding_dim, 320, kernel_size),
             nn.MaxPool1d(2),
             nn.Dropout(0.2),
         )
-        self.birnn = nn.LSTM(169, 32, bidirectional=True, batch_first=True)
+        self.birnn = nn.LSTM((n_embeddings * embedding_dim - kernel_size + 1) // 2, 32, bidirectional=True,
+                             batch_first=True)
 
         self.classifier = nn.Sequential(
             nn.Flatten(),
