@@ -13,7 +13,10 @@ class AnnLM(pl.LightningModule):
         self.model = ANN(encoder)
 
     def forward(self, x):
-        return self.model(x)
+        with torch.no_grad():
+            x = self.model.encoder(x)
+        x = self.model.classifier(x)
+        return x
 
     def training_step(self, batch, batch_idx):
         x, y = batch[self.x_key], batch[self.y_key]
