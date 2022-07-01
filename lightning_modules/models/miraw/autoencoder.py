@@ -5,6 +5,7 @@ class Autoencoder(nn.Module):
     def __init__(self):
         super().__init__()
         self.encoder = nn.Sequential(
+            nn.Flatten(),
             nn.Linear(350, 400),
             nn.ReLU(),
             nn.Linear(400, 350),

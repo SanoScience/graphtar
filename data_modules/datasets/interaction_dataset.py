@@ -8,6 +8,9 @@ class InteractionDataset(Dataset):
     def __init__(self, csv_file_path: str, transform=None):
         self.data_df = pd.read_csv(csv_file_path, index_col=0)
         self.transform = transform
+        self.mirna_key = 'mirna'
+        self.target_key = 'target'
+        self.label_key = 'label'
 
     def __len__(self):
         return len(self.data_df)
@@ -22,7 +25,7 @@ class InteractionDataset(Dataset):
             mirna = np.expand_dims(np.array(self.data_df.iloc[idx, 1]), axis=0)
             target = np.expand_dims(np.array(self.data_df.iloc[idx, 3]), axis=0)
             label = np.expand_dims(np.array(self.data_df.iloc[idx, 4]), axis=0)
-        sample = {'mirna': mirna, 'target': target, 'label': label}
+        sample = {self.mirna_key: mirna, self.target_key: target, self.label_key: label}
         if self.transform:
             sample = self.transform(sample)
         return sample

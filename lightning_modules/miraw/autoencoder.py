@@ -18,14 +18,14 @@ class AutoencoderLM(pl.LightningModule):
     def training_step(self, batch, batch_idx):
         x, y = batch[self.x_key], batch[self.y_key]
         y_hat = self(x)
-        loss = F.mse_loss(y_hat, x)
+        loss = F.mse_loss(y_hat, torch.flatten(x, 1, -1))
         self.log("train_loss", loss)
         return loss
 
     def validation_step(self, batch, batch_idx):
         x, y = batch[self.x_key], batch[self.y_key]
         y_hat = self(x)
-        loss = F.mse_loss(y_hat, x)
+        loss = F.mse_loss(y_hat, torch.flatten(x, 1, -1))
         self.log("val_loss", loss)
 
     def configure_optimizers(self):
