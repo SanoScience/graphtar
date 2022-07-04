@@ -1,0 +1,45 @@
+{
+  "csv_path": "../../data/miRAW.csv",
+  "batch_size": 8,
+  "train_val_ratio": [
+    0.8,
+    0.2
+  ],
+  "x_key": "merged",
+  "y_key": "label",
+  "transform": [
+    {
+      "ToOneHot": {
+        "encoding_dict": {
+          "A": 0,
+          "U": 1,
+          "T": 2,
+          "G": 3,
+          "C": 4
+        },
+        "key_to_encode": "mirna"
+      }
+    },
+    {
+      "ToOneHot": {
+        "encoding_dict": {
+          "A": 0,
+          "U": 1,
+          "T": 2,
+          "G": 3,
+          "C": 4
+        },
+        "key_to_encode": "target"
+      }
+    },
+    {
+      "ToTensor": {
+        "keys": [
+          "mirna",
+          "target",
+          "label"
+        ]
+      }
+    }
+  ]
+}

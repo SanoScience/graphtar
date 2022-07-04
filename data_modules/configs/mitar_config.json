@@ -36,10 +36,10 @@
         "encoding_dict": {
           "A": 0,
           "U": 1,
-          "T": 1,
-          "G": 2,
-          "C": 3,
-          "N": 4
+          "T": 2,
+          "G": 3,
+          "C": 4,
+          "N": 5
         },
         "key_to_encode": "merged"
       }

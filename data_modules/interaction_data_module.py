@@ -20,11 +20,14 @@ class InteractionDataModule(pl.LightningDataModule):
         if stage == "fit":
             interaction_full = InteractionDataset(self.dataset_config['csv_path'],
                                                   transform=self.dataset_config['transform'])
-            train_len = math.floor(self.dataset_config['train_val_ratio'][0] * len(interaction_full))
-            self.train_data, self.val_data = random_split(interaction_full,
-                                                          [train_len, len(interaction_full) - train_len])
+            self.initialize_train_val_splits(interaction_full)
         if stage == "test":
             raise NotImplementedError("Test stage not implemented.")
+
+    def initialize_train_val_splits(self, interaction_full):
+        train_len = math.floor(self.dataset_config['train_val_ratio'][0] * len(interaction_full))
+        self.train_data, self.val_data = random_split(interaction_full,
+                                                      [train_len, len(interaction_full) - train_len])
 
     def train_dataloader(self):
         return DataLoader(self.train_data, batch_size=self.dataset_config['batch_size'])
