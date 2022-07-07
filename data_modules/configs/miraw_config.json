@@ -1,9 +1,9 @@
 {
   "csv_path": "../../data/miRAW.csv",
-  "batch_size": 128,
   "train_val_ratio": [
-    0.8,
-    0.2
+    0.7,
+    0.15,
+    0.15
   ],
   "x_key": "merged",
   "y_key": "label",
@@ -18,7 +18,7 @@
     {
       "Pad": {
         "key_to_pad": "mirna",
-        "target_length": 30,
+        "target_length": 26,
         "padding_char": "N"
       }
     },

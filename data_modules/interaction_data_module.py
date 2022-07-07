@@ -11,10 +11,11 @@ from data_modules.datasets.interaction_dataset import InteractionDataset
 
 class InteractionDataModule(pl.LightningDataModule):
 
-    def __init__(self, transforms_config: str):
+    def __init__(self, transforms_config: str, batch_size: int):
         super().__init__()
         with open(transforms_config, 'r') as f:
             self.dataset_config = DatasetConfig(**json.load(f, object_hook=DatasetConfigDecoder.object_hook))
+        self.batch_size = batch_size
 
     def setup(self, stage: Optional[str] = None):
         if stage == "fit":
@@ -26,14 +27,19 @@ class InteractionDataModule(pl.LightningDataModule):
 
     def initialize_train_val_splits(self, interaction_full):
         train_len = math.floor(self.dataset_config['train_val_ratio'][0] * len(interaction_full))
-        self.train_data, self.val_data = random_split(interaction_full,
+        self.train_data, val_test_data = random_split(interaction_full,
                                                       [train_len, len(interaction_full) - train_len])
+        val_len = math.floor(self.dataset_config['train_val_ratio'][1] * len(interaction_full))
+        self.val_data, self.test_data = random_split(val_test_data, [val_len, len(val_test_data) - val_len])
 
     def train_dataloader(self):
-        return DataLoader(self.train_data, batch_size=self.dataset_config['batch_size'])
+        return DataLoader(self.train_data, batch_size=self.batch_size)
 
     def val_dataloader(self):
-        return DataLoader(self.val_data, batch_size=self.dataset_config['batch_size'])
+        return DataLoader(self.val_data, batch_size=self.batch_size)
+
+    def test_dataloader(self):
+        return DataLoader(self.test_data, batch_size=self.batch_size)
 
     def get_batch_keys(self):
         return self.dataset_config['x_key'], self.dataset_config['y_key']

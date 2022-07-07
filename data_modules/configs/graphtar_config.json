@@ -1,9 +1,9 @@
 {
   "csv_path": "../../data/miRAW.csv",
-  "batch_size": 8,
   "train_val_ratio": [
-    0.8,
-    0.2
+    0.7,
+    0.15,
+    0.15
   ],
   "x_key": "merged",
   "y_key": "label",
@@ -15,7 +15,8 @@
           "U": 1,
           "T": 2,
           "G": 3,
-          "C": 4
+          "C": 4,
+          "N": 5
         },
         "key_to_encode": "mirna"
       }
@@ -27,7 +28,8 @@
           "U": 1,
           "T": 2,
           "G": 3,
-          "C": 4
+          "C": 4,
+          "N": 5
         },
         "key_to_encode": "target"
       }

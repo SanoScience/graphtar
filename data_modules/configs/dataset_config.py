@@ -17,8 +17,7 @@ from data_modules.datasets.transforms.to_tensor import ToTensor
 
 class DatasetConfig(TypedDict):
     csv_path: str
-    batch_size: int
-    train_val_ratio: Tuple[float, float]
+    train_val_ratio: Tuple[float, float, float]
     x_key: str
     y_key: str
     transform: Compose
@@ -63,7 +62,6 @@ class DatasetConfigDecoder:
     def from_json(cls, dict: Dict):
         return cls(**dict)
 
-#
 # config = DatasetConfig(csv_path='path', batch_size=123, train_val_ratio=(0.8, 0.2), x_key='x', y_key='y',
 #                        transform=Compose([
 #                            Pad("target", 40, "N"),

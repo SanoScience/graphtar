@@ -6,7 +6,7 @@ class Autoencoder(nn.Module):
         super().__init__()
         self.encoder = nn.Sequential(
             nn.Flatten(),
-            nn.Linear(350, 400),
+            nn.Linear(396, 400),
             nn.ReLU(),
             nn.Linear(400, 350),
             nn.ReLU(),
@@ -26,7 +26,7 @@ class Autoencoder(nn.Module):
             nn.ReLU(),
             nn.Linear(350, 400),
             nn.ReLU(),
-            nn.Linear(400, 350),
+            nn.Linear(400, 396),
         )
 
     def forward(self, x):

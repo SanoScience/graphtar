@@ -7,8 +7,9 @@ from data_modules.interaction_data_module import InteractionDataModule
 
 
 class GraphInteractionDataModule(InteractionDataModule):
-    def __init__(self, transforms_config: str):
-        super().__init__(transforms_config)
+    def __init__(self, transforms_config: str, batch_size: int):
+        super().__init__(transforms_config, batch_size)
+        self.batch_size = batch_size
 
     def setup(self, stage: Optional[str] = None):
         if stage == "fit":
@@ -19,7 +20,7 @@ class GraphInteractionDataModule(InteractionDataModule):
             raise NotImplementedError("Test stage not implemented")
 
     def train_dataloader(self):
-        return DataLoader(self.train_data, batch_size=self.dataset_config['batch_size'])
+        return DataLoader(self.train_data, batch_size=self.batch_size)
 
     def val_dataloader(self):
-        return DataLoader(self.val_data, batch_size=self.dataset_config['batch_size'])
+        return DataLoader(self.val_data, batch_size=self.batch_size)
