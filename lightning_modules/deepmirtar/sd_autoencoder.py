@@ -8,11 +8,12 @@ from lightning_modules.models.deepmirtar.denoising_autoencoder import DenoisingA
 
 class SdAutoencoderLM(pl.LightningModule):
     def __init__(self, initial_da: DenoisingAutoencoder, x_key: str,
-                 y_key: str):
+                 y_key: str, lr: float):
         super().__init__()
         self.sda = nn.ModuleList([initial_da])
         self.x_key = x_key
         self.y_key = y_key
+        self.lr = lr
 
     def forward(self, x):
         x = self.sda[-1](x)
@@ -43,7 +44,7 @@ class SdAutoencoderLM(pl.LightningModule):
         self.log("val_loss", loss)
 
     def configure_optimizers(self):
-        return torch.optim.Adam(self.parameters(), lr=0.001)
+        return torch.optim.Adam(self.parameters(), lr=self.lr)
 
     def append_module(self, module: nn.Module):
         self.sda.append(module)
