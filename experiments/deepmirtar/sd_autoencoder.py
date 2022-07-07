@@ -2,6 +2,7 @@ import sys
 
 import torch
 from pytorch_lightning import Trainer
+from pytorch_lightning.callbacks.early_stopping import EarlyStopping
 
 from data_modules.interaction_data_module import InteractionDataModule
 from lightning_modules.deepmirtar.sd_autoencoder import SdAutoencoderLM
@@ -28,6 +29,7 @@ for i, autoencoder in enumerate(autoencoders):
         module = SdAutoencoderLM(autoencoders[i], x_key, y_key, float(lr))
     else:
         module.append_module(autoencoder)
-    trainer = Trainer(accelerator='gpu', max_epochs=epochs_num)
+    trainer = Trainer(accelerator='gpu', max_epochs=epochs_num,
+                      callbacks=[EarlyStopping(monitor="val_loss", mode="min", patience=10)])
     trainer.fit(module, datamodule=data_module)
 torch.save(module.sda, "models/autoencoder_{}_{}_{}_{}.pt".format(config_name, batch_size, data_split_seed, lr))
