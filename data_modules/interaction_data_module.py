@@ -21,18 +21,18 @@ class InteractionDataModule(pl.LightningDataModule):
 
     def setup(self, stage: Optional[str] = None):
         if stage == "fit":
-            interaction_full = InteractionDataset(self.dataset_config['csv_path'],
-                                                  transform=self.dataset_config['transform'])
+            interaction_full = InteractionDataset(self.dataset_config.csv_path,
+                                                  transform=self.dataset_config.transform)
             self.initialize_train_val_splits(interaction_full)
         if stage == "test":
             raise NotImplementedError("Test stage not implemented.")
 
     def initialize_train_val_splits(self, interaction_full):
-        train_len = math.floor(self.dataset_config['train_val_ratio'][0] * len(interaction_full))
+        train_len = math.floor(self.dataset_config.train_val_ratio[0] * len(interaction_full))
         self.train_data, val_test_data = random_split(interaction_full,
                                                       [train_len, len(interaction_full) - train_len],
                                                       generator=torch.Generator().manual_seed(self.data_split_seed))
-        val_len = math.floor(self.dataset_config['train_val_ratio'][1] * len(interaction_full))
+        val_len = math.floor(self.dataset_config.train_val_ratio[1] * len(interaction_full))
         self.val_data, self.test_data = random_split(val_test_data, [val_len, len(val_test_data) - val_len],
                                                      generator=torch.Generator().manual_seed(self.data_split_seed))
 
@@ -46,4 +46,4 @@ class InteractionDataModule(pl.LightningDataModule):
         return DataLoader(self.test_data, batch_size=self.batch_size)
 
     def get_batch_keys(self):
-        return self.dataset_config['x_key'], self.dataset_config['y_key']
+        return self.dataset_config.x_key, self.dataset_config.y_key

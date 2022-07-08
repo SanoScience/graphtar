@@ -1,5 +1,5 @@
 {
-  "csv_path": "../../data/DeepMirTar.csv",
+  "csv_path": "data/DeepMirTar.csv",
   "train_val_ratio": [
     0.7,
     0.15,

@@ -1,6 +1,6 @@
 import sys
 from json import JSONEncoder
-from typing import TypedDict, Tuple, Dict
+from typing import NamedTuple, Tuple, Dict
 
 from torchvision.transforms.transforms import Compose
 
@@ -15,7 +15,7 @@ from data_modules.datasets.transforms.to_one_hot import ToOneHot
 from data_modules.datasets.transforms.to_tensor import ToTensor
 
 
-class DatasetConfig(TypedDict):
+class DatasetConfig(NamedTuple):
     csv_path: str
     train_val_ratio: Tuple[float, float, float]
     x_key: str
