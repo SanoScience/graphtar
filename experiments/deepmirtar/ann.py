@@ -13,6 +13,7 @@ config = dotenv_values("neptune_config.env")
 neptune_logger = NeptuneLogger(
     project=config["NEPTUNE_PROJECT"],
     api_token=config["NEPTUNE_API_TOKEN"],
+    log_model_checkpoints=False,
 )
 print(sys.argv[1:])
 config_path, autoencoder_path, data_split_seed, lr, batch_size, epochs_num, model_path = sys.argv[1:]
@@ -26,7 +27,7 @@ checkpoint_callback = ModelCheckpoint(dirpath=model_path,
                                       filename="ann_{}_{}_{}_{}.pt".format(config_name, batch_size, data_split_seed,
                                                                            lr), save_top_k=1, monitor="val_loss")
 trainer = Trainer(gpus=1, max_epochs=int(epochs_num),
-                  callbacks=[EarlyStopping(monitor="val_loss", mode="min", patience=10), checkpoint_callback],
+                  callbacks=[EarlyStopping(monitor="val_loss", mode="min", patience=100), checkpoint_callback],
                   logger=neptune_logger
                   )
 trainer.fit(module, datamodule=data_module)
