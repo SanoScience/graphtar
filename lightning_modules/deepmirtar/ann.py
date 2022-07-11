@@ -2,6 +2,7 @@ import pytorch_lightning as pl
 import torch
 import torch.nn.functional as F
 from torch.optim.lr_scheduler import ReduceLROnPlateau
+from torchmetrics import Accuracy
 
 from lightning_modules.models.deepmirtar.ann import ANN
 
@@ -14,6 +15,7 @@ class AnnLM(pl.LightningModule):
         self.x_key = x_key
         self.y_key = y_key
         self.lr = lr
+        self.accuracy = Accuracy()
 
     def forward(self, x):
         return self.model(x)
@@ -23,6 +25,8 @@ class AnnLM(pl.LightningModule):
         y_hat = self.forward(x)
         loss = F.binary_cross_entropy_with_logits(y_hat, y)
         self.log("train_loss", loss)
+        self.accuracy(y_hat, y.int())
+        self.log("train_acc", self.accuracy)
         return loss
 
     def validation_step(self, batch, batch_idx):
@@ -30,6 +34,8 @@ class AnnLM(pl.LightningModule):
         y_hat = self.forward(x)
         loss = F.binary_cross_entropy_with_logits(y_hat, y)
         self.log("val_loss", loss)
+        self.accuracy(y_hat, y.int())
+        self.log("train_acc", self.accuracy)
         return loss
 
     def configure_optimizers(self):
