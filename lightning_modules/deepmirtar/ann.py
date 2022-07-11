@@ -35,7 +35,7 @@ class AnnLM(pl.LightningModule):
         loss = F.binary_cross_entropy_with_logits(y_hat, y)
         self.log("val_loss", loss)
         self.accuracy(y_hat, y.int())
-        self.log("train_acc", self.accuracy)
+        self.log("val_acc", self.accuracy)
         return loss
 
     def configure_optimizers(self):
