@@ -25,7 +25,7 @@ autoencoders = [
     DenoisingAutoencoder(2000, 1500)
 ]
 
-callbacks = [EarlyStopping(monitor="val_loss", mode="min", patience=10)]
+callbacks = [EarlyStopping(monitor="val_loss", mode="min", patience=50)]
 
 for i, autoencoder in enumerate(autoencoders):
     if i == 0:

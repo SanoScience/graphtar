@@ -46,7 +46,7 @@ class SdAutoencoderLM(pl.LightningModule):
 
     def configure_optimizers(self):
         optimizer = torch.optim.Adam(self.parameters(), lr=self.lr)
-        scheduler = ReduceLROnPlateau(optimizer, 'min', factor=0.5, patience=5)
+        scheduler = ReduceLROnPlateau(optimizer, 'min', factor=0.1, patience=10, min_lr=1e-8)
         return [optimizer], [{"scheduler": scheduler, "monitor": "val_loss", "interval": "epoch"}]
 
     def append_module(self, module: nn.Module):
