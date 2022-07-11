@@ -22,5 +22,5 @@ source ./venv/bin/activate
 pip3 install --upgrade pip
 pip3 install -r requirements.txt
 
-# config_path, autoencoder_path, model, data_split_seed, lr, batch_size, epochs_num, model_path
-python3 experiments/deepmirtar/ann.py data_modules/configs/deepmirtar_config.json experiments/deepmirtar/models/autoencoder_deepmirtar_config_128_1234_0.001.pt 1234 0.001 128 1000 experiments/deepmirtar/models
+# config_path, model, data_split_seed, lr, batch_size, epochs_num, model_path
+python3 experiments/deepmirtar/ann.py data_modules/configs/deepmirtar_config.json 1234 0.001 128 1000 experiments/deepmirtar/models
