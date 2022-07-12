@@ -1,19 +1,21 @@
 import sys
 
+from dotenv import dotenv_values
 from pytorch_lightning import Trainer
 from pytorch_lightning.callbacks import EarlyStopping, ModelCheckpoint
+from pytorch_lightning.loggers import NeptuneLogger
 
 from data_modules.datasets.transforms.pad import Pad
 from data_modules.interaction_data_module import InteractionDataModule
 from lightning_modules.mitar.mitar_net import MitarNetLM
 
-# config = dotenv_values("neptune_config.env")
-#
-# neptune_logger = NeptuneLogger(
-#     project=config["NEPTUNE_PROJECT"],
-#     api_token=config["NEPTUNE_API_TOKEN"],
-#     log_model_checkpoints=False,
-# )
+config = dotenv_values("neptune_config.env")
+
+neptune_logger = NeptuneLogger(
+    project=config["NEPTUNE_PROJECT"],
+    api_token=config["NEPTUNE_API_TOKEN"],
+    log_model_checkpoints=False,
+)
 
 config_path, data_split_seed, lr, batch_size, epochs_num, model_dir = sys.argv[1:]
 config_name = config_path.split('/')[-1].split('.')[0]
@@ -32,6 +34,6 @@ checkpoint_callback = ModelCheckpoint(dirpath=model_dir,
 
 trainer = Trainer(gpus=1, max_epochs=int(epochs_num),
                   callbacks=[EarlyStopping(monitor="val_loss", mode="min", patience=100), checkpoint_callback],
-                  # logger=neptune_logger
+                  logger=neptune_logger
                   )
 trainer.fit(module, datamodule=data_module)
