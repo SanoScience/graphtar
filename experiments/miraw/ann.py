@@ -28,8 +28,8 @@ autoencoder = torch.load(autoencoder_path)
 module = AnnLM(x_key, y_key, float(lr), encoder=autoencoder.encoder)
 
 checkpoint_callback = ModelCheckpoint(dirpath=model_dir,
-                                      filename="ann_{}_{}_{}_{}".format(config_name, batch_size, data_split_seed,
-                                                                        lr), save_top_k=1, monitor="val_loss")
+                                      filename="miraw_ann_{}_{}_{}_{}".format(config_name, batch_size, data_split_seed,
+                                                                              lr), save_top_k=1, monitor="val_loss")
 trainer = Trainer(gpus=1, max_epochs=int(epochs_num),
                   callbacks=[EarlyStopping(monitor="val_loss", mode="min", patience=100), checkpoint_callback],
                   logger=neptune_logger

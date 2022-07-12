@@ -25,8 +25,9 @@ x_key, y_key = data_module.get_batch_keys()
 
 module = AnnLM(autoencoder_path, x_key, y_key, float(lr))
 checkpoint_callback = ModelCheckpoint(dirpath=model_dir,
-                                      filename="ann_{}_{}_{}_{}".format(config_name, batch_size, data_split_seed,
-                                                                        lr), save_top_k=1, monitor="val_loss")
+                                      filename="deepmirtar_ann_{}_{}_{}_{}".format(config_name, batch_size,
+                                                                                   data_split_seed,
+                                                                                   lr), save_top_k=1, monitor="val_loss")
 trainer = Trainer(gpus=1, max_epochs=int(epochs_num),
                   callbacks=[EarlyStopping(monitor="val_loss", mode="min", patience=100), checkpoint_callback],
                   logger=neptune_logger
