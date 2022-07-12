@@ -1,13 +1,37 @@
+import sys
+
 import torch
+from dotenv import dotenv_values
 from pytorch_lightning import Trainer
+from pytorch_lightning.callbacks import ModelCheckpoint, EarlyStopping
+from pytorch_lightning.loggers import NeptuneLogger
 
 from data_modules.interaction_data_module import InteractionDataModule
 from lightning_modules.miraw.ann import AnnLM
 
-data_module = InteractionDataModule("../../data_modules/configs/miraw_config.json")
+config = dotenv_values("neptune_config.env")
+
+neptune_logger = NeptuneLogger(
+    project=config["NEPTUNE_PROJECT"],
+    api_token=config["NEPTUNE_API_TOKEN"],
+    log_model_checkpoints=False,
+)
+
+config_path, data_split_seed, lr, batch_size, epochs_num, model_dir = sys.argv[1:]
+config_name = config_path.split('/')[-1].split('.')[0]
+autoencoder_path = "{}/autoencoder_{}_{}_{}_{}.pt".format(model_dir, config_name, batch_size, data_split_seed, lr)
+
+data_module = InteractionDataModule(config_path, int(batch_size), int(data_split_seed))
 x_key, y_key = data_module.get_batch_keys()
 
-autoencoder = torch.load("autoencoder.pt")
-module = AnnLM(x_key, y_key, encoder=autoencoder.model.encoder)
-trainer = Trainer(accelerator='gpu', max_epochs=2, limit_train_batches=0.1, limit_test_batches=0.1)
+autoencoder = torch.load(autoencoder_path)
+module = AnnLM(x_key, y_key, float(lr), encoder=autoencoder.encoder)
+
+checkpoint_callback = ModelCheckpoint(dirpath=model_dir,
+                                      filename="ann_{}_{}_{}_{}".format(config_name, batch_size, data_split_seed,
+                                                                        lr), save_top_k=1, monitor="val_loss")
+trainer = Trainer(gpus=1, max_epochs=int(epochs_num),
+                  callbacks=[EarlyStopping(monitor="val_loss", mode="min", patience=100), checkpoint_callback],
+                  logger=neptune_logger
+                  )
 trainer.fit(module, datamodule=data_module)
