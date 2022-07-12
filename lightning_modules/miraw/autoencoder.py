@@ -1,15 +1,17 @@
 import pytorch_lightning as pl
 import torch
 import torch.nn.functional as F
+from torch.optim.lr_scheduler import ReduceLROnPlateau
 
 from lightning_modules.models.miraw.autoencoder import Autoencoder
 
 
 class AutoencoderLM(pl.LightningModule):
-    def __init__(self, x_key, y_key):
+    def __init__(self, x_key, y_key, lr: float):
         super().__init__()
         self.x_key = x_key
         self.y_key = y_key
+        self.lr = lr
         self.model = Autoencoder()
 
     def forward(self, x):
@@ -29,4 +31,6 @@ class AutoencoderLM(pl.LightningModule):
         self.log("val_loss", loss)
 
     def configure_optimizers(self):
-        return torch.optim.Adam(self.parameters(), lr=0.001)
+        optimizer = torch.optim.Adam(self.parameters(), lr=self.lr)
+        scheduler = ReduceLROnPlateau(optimizer, 'min', factor=0.1, patience=10, min_lr=1e-8)
+        return [optimizer], [{"scheduler": scheduler, "monitor": "val_loss", "interval": "epoch"}]

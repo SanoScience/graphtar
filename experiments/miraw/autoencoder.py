@@ -1,12 +1,26 @@
+import os
+import sys
+
 import torch
 from pytorch_lightning import Trainer
+from pytorch_lightning.callbacks import EarlyStopping
 
 from data_modules.interaction_data_module import InteractionDataModule
 from lightning_modules.miraw.autoencoder import AutoencoderLM
 
-data_module = InteractionDataModule("../../data_modules/configs/miraw_config.json", 128)
+config_path, data_split_seed, lr, batch_size, epochs_num, model_dir = sys.argv[1:]
+config_name = config_path.split('/')[-1].split('.')[0]
+
+model_filename = "autoencoder_{}_{}_{}_{}.pt".format(config_name, batch_size, data_split_seed, lr)
+
+data_module = InteractionDataModule(config_path, int(batch_size), int(data_split_seed))
 x_key, y_key = data_module.get_batch_keys()
-model = AutoencoderLM(x_key, y_key)
-trainer = Trainer(accelerator='gpu', max_epochs=2, limit_train_batches=0.1, limit_test_batches=0.1)
-trainer.fit(model, datamodule=data_module)
-torch.save(model, "autoencoder.pt")
+
+callbacks = [EarlyStopping(monitor="val_loss", mode="min", patience=50)]
+module = AutoencoderLM(x_key, y_key, float(lr))
+trainer = Trainer(gpus=1, max_epochs=int(epochs_num),
+                  callbacks=callbacks,
+                  logger=False
+                  )
+trainer.fit(module, datamodule=data_module)
+torch.save(module.model, os.path.join(model_dir, model_filename))
