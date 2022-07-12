@@ -24,7 +24,7 @@ class MitarNet(nn.Module):
         self.classifier = nn.Sequential(
             nn.Flatten(),
             nn.Dropout(0.2),
-            nn.Linear((input_size - kernel_size + 1) * lstm_hidden_size, 16),
+            nn.Linear((input_size - (kernel_size - 1)) // 2 * 2 * lstm_hidden_size, 16),
             nn.ReLU(),
             nn.Dropout(0.2),
             nn.Linear(16, 1)

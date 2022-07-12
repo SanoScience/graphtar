@@ -24,7 +24,7 @@ x_key, y_key = data_module.get_batch_keys()
 n_embeddings = sum([transform.target_length for transform in data_module.dataset_config.transform.transforms if
                     type(transform) is Pad])
 
-module = MitarNetLM(6, n_embeddings, float(lr), x_key, y_key)
+module = MitarNetLM(5, n_embeddings, float(lr), x_key, y_key)
 
 checkpoint_callback = ModelCheckpoint(dirpath=model_dir,
                                       filename="mitar_net_{}_{}_{}_{}".format(config_name, batch_size, data_split_seed,
