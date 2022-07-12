@@ -7,12 +7,12 @@ from lightning_modules.models.miraw.autoencoder import Autoencoder
 
 
 class AutoencoderLM(pl.LightningModule):
-    def __init__(self, x_key, y_key, lr: float):
+    def __init__(self, input_size: int, x_key, y_key, lr: float):
         super().__init__()
         self.x_key = x_key
         self.y_key = y_key
         self.lr = lr
-        self.model = Autoencoder()
+        self.model = Autoencoder(input_size)
 
     def forward(self, x):
         return self.model(x)
