@@ -31,6 +31,7 @@ hyperparams = {
     "autoencoder_path": autoencoder_path
 }
 neptune_logger.log_hyperparams(hyperparams)
+neptune_logger.run['sys/tags'].add(["miraw_architecture"])
 
 data_module = InteractionDataModule(config_path, int(batch_size), int(data_split_seed))
 x_key, y_key = data_module.get_batch_keys()
