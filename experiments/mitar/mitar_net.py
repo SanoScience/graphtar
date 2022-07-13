@@ -20,6 +20,16 @@ neptune_logger = NeptuneLogger(
 config_path, data_split_seed, lr, batch_size, epochs_num, model_dir = sys.argv[1:]
 config_name = config_path.split('/')[-1].split('.')[0]
 
+hyperparams = {
+    "config_path": config_path,
+    "data_split_seed": data_split_seed,
+    "lr": lr,
+    "batch_size": batch_size,
+    "epochs_num": epochs_num,
+    "model_dir": model_dir
+}
+neptune_logger.log_hyperparams(hyperparams)
+
 data_module = InteractionDataModule(config_path, int(batch_size), int(data_split_seed))
 x_key, y_key = data_module.get_batch_keys()
 
