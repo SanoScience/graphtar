@@ -2,7 +2,7 @@ import pytorch_lightning as pl
 import torch
 import torch.nn.functional as F
 from torch.optim.lr_scheduler import ReduceLROnPlateau
-from torchmetrics import Accuracy
+from torchmetrics import Accuracy, F1Score
 
 from lightning_modules.models.deepmirtar.ann import ANN
 
@@ -16,6 +16,7 @@ class AnnLM(pl.LightningModule):
         self.y_key = y_key
         self.lr = lr
         self.accuracy = Accuracy()
+        self.f1 = F1Score(1)
 
     def forward(self, x):
         return self.model(x)
@@ -36,6 +37,8 @@ class AnnLM(pl.LightningModule):
         self.log("val_loss", loss)
         self.accuracy(y_hat, y.int())
         self.log("val_acc", self.accuracy)
+        self.f1(y_hat, y.int())
+        self.log("val_f1", self.f1)
         return loss
 
     def configure_optimizers(self):
