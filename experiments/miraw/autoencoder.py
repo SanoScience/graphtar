@@ -44,7 +44,7 @@ input_size = 5 * sum([transform.target_length for transform in data_module.datas
 module = AutoencoderLM(input_size, x_key, y_key, float(lr))
 trainer = Trainer(gpus=1, max_epochs=int(epochs_num),
                   callbacks=callbacks,
-                  logger=False
+                  logger=neptune_logger
                   )
 trainer.fit(module, datamodule=data_module)
 torch.save(module.model, os.path.join(model_dir, model_filename))
