@@ -8,7 +8,7 @@
 #SBATCH -p plgrid-gpu-v100
 #SBATCH --gres=gpu:1
 #SBATCH --output="miraw_ann.txt"
-#SBATCH --array=16,32,64,128,256,512
+#SBATCH --array=128,256,512,1024
 
 module load plgrid/apps/cuda/11.3
 
