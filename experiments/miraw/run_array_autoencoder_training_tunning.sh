@@ -3,13 +3,13 @@
 #SBATCH -J miraw_autoencoder
 #SBATCH -N 1
 #SBATCH --tasks-per-node=3
-#SBATCH --time=02:30:00
+#SBATCH --time=05:00:00
 #SBATCH -A plgsano3
 #SBATCH -p plgrid-gpu-v100
 #SBATCH --gres=gpu:1
 #SBATCH --output="miraw_autoencoder.txt"
-#SBATCH --array=128,256,512,1024
-#17072,613,2169,2697,7488,5258,2687,2775,8604,4435,4886,9997,3162,7189,8246,4506,8778,8566,4481,2389,9906,7142,9830,6295,4277,7053,8532,705,641,809
+#SBATCH --array=16,32,64,128,256,512
+
 module load plgrid/apps/cuda/11.3
 
 cd ../../
