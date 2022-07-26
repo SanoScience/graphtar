@@ -18,7 +18,7 @@
     {
       "Pad": {
         "key_to_pad": "mirna",
-        "target_length": 25,
+        "target_length": 26,
         "padding_char": "N"
       }
     },

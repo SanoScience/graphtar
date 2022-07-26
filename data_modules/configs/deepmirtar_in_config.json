@@ -11,14 +11,14 @@
     {
       "Pad": {
         "key_to_pad": "target",
-        "target_length": 27,
+        "target_length": 53,
         "padding_char": "N"
       }
     },
     {
       "Pad": {
         "key_to_pad": "mirna",
-        "target_length": 24,
+        "target_length": 26,
         "padding_char": "N"
       }
     },
