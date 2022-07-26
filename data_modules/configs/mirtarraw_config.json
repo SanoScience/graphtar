@@ -1,5 +1,5 @@
 {
-  "csv_path": "data/miRAW.csv",
+  "csv_path": "data/MirTarRAW.csv",
   "train_val_ratio": [
     0.7,
     0.15,
