@@ -22,12 +22,16 @@ class InteractionGraphDataset(InteractionDataset):
         return data_objects
 
     def get_edges(self, mirna, target):
-        mirna_inter_edges = np.array((np.arange(len(mirna))[:-1], np.arange(len(mirna))[:-1] + 1))
-        mirna_inter_edges = np.concatenate((mirna_inter_edges, mirna_inter_edges[[1, 0], :]), axis=1)
-        target_inter_edges = mirna_inter_edges + len(mirna)
+        mirna_inter_edges = self.get_inter_edges(mirna)
+        target_inter_edges = self.get_inter_edges(target) + len(mirna)
         shorter_len = len(mirna) if len(mirna) < len(target) else len(target)
         cross_edges = np.array((np.arange(shorter_len), np.arange(shorter_len) + shorter_len))
         cross_edges = np.concatenate((cross_edges, cross_edges[[1, 0], :]), axis=1)
         edges = np.concatenate((mirna_inter_edges, target_inter_edges, cross_edges), axis=1)
 
         return torch.as_tensor(edges, dtype=torch.long)
+
+    def get_inter_edges(self, sequence):
+        inter_edges = np.array((np.arange(len(sequence))[:-1], np.arange(len(sequence))[:-1] + 1))
+        inter_edges = np.concatenate((inter_edges, inter_edges[[1, 0], :]), axis=1)
+        return inter_edges

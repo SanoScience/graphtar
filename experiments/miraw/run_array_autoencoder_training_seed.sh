@@ -25,6 +25,6 @@ pip3 install -r requirements.txt
 
 # config_path, data_split_seed, lr, batch_size, epochs_num, model_dir
 # deepmirtar BS=128
-# miraw BS=16
+# miraw BS=64
 # mirtarraw BS=128
 python3 experiments/miraw/autoencoder.py data_modules/configs/miraw_config.json $SLURM_ARRAY_TASK_ID 0.001 16 1000 experiments/miraw/models

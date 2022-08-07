@@ -1,4 +1,5 @@
 from enum import Enum
+from functools import partial
 from typing import Tuple, List
 
 import torch.nn as nn
@@ -14,9 +15,9 @@ class LayerType(Enum):
 
 
 class GlobalPoolingType(Enum):
-    MEAN = global_mean_pool
-    ADD = global_add_pool
-    MAX = global_max_pool
+    MEAN = partial(global_mean_pool)
+    ADD = partial(global_add_pool)
+    MAX = partial(global_max_pool)
 
 
 class GNN(nn.Module):
@@ -36,7 +37,7 @@ class GNN(nn.Module):
         for layer in self.graph_layers:
             x = layer(x, edge_index)
             x = x.relu()
-        x = self.global_pooling_fn(x, batch)
+        x = self.global_pooling_fn.value(x, batch)
         x = self.classifier(x)
         return x
 
