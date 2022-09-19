@@ -61,17 +61,3 @@ class DatasetConfigDecoder:
     @staticmethod
     def from_json(cls, dict: Dict):
         return cls(**dict)
-
-# config = DatasetConfig(csv_path='path', batch_size=123, train_val_ratio=(0.8, 0.2), x_key='x', y_key='y',
-#                        transform=Compose([
-#                            Pad("target", 40, "N"),
-#                            Pad("mirna", 30, "N"),
-#                            Merge(merged_key="merged", keys_to_merge=("mirna", "target")),
-#                            ToOneHot({'A': 0, 'U': 1, 'T': 1, 'G': 2, 'C': 3, 'N': 4}, "merged"),
-#                            ToTensor(keys=("merged", "label"))
-#                        ]))
-#
-# with open('miraw_config.json', 'r') as f:
-#     # json.dump(config, f, cls=DatasetConfigEncoder)
-#     config = DatasetConfig(**json.load(f, object_hook=DatasetConfigDecoder.object_hook))
-#     print(config)

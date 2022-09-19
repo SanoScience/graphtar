@@ -4,14 +4,25 @@ from typing import Tuple, List
 
 import torch.nn as nn
 from torch.nn import ModuleList
-from torch_geometric.nn import GCNConv, GATConv, SAGEConv
+from torch_geometric.nn import GCNConv, GATv2Conv, SAGEConv
 from torch_geometric.nn.glob.glob import global_add_pool, global_max_pool, global_mean_pool
+
+
+def get_sage_conv(in_channels: int, out_channels: int):
+    return SAGEConv(in_channels, out_channels, aggr="add", normalize=True)
+
+
+def get_gat_conv(in_channels: int, out_channels: int):
+    return GATv2Conv(in_channels, out_channels, heads=1)
 
 
 class LayerType(Enum):
     GCN = GCNConv
-    GRAPHSAGE = SAGEConv
-    GAT = GATConv
+    GRAPHSAGE = partial(get_sage_conv)
+    GAT = partial(get_gat_conv)
+
+
+get_gat_conv
 
 
 class GlobalPoolingType(Enum):
