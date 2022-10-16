@@ -66,7 +66,7 @@ module = GnnLM(LayerType[gnn_layer_type], graph_layer_sizes, GlobalPoolingType[g
                hyperparams['dropout_rate'], hyperparams['lr'])
 
 checkpoint_callback = ModelCheckpoint(dirpath=model_dir,
-                                      filename="graphtar_net_{}_{}_{}_{}".format(config_name, batch_size,
+                                      filename="graphtar_net_{}_{}_{}_{}_{}".format(config_name, gnn_layer_type, batch_size,
                                                                                  data_split_seed,
                                                                                  lr), save_top_k=1, monitor="val_loss")
 

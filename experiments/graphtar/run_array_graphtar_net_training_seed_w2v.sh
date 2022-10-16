@@ -1,6 +1,6 @@
 #!/bin/bash
 
-#SBATCH -J graphtar_net
+#SBATCH -J graphtar_net_gat
 #SBATCH -N 1
 #SBATCH --tasks-per-node=3
 #SBATCH --time=12:00:00
@@ -23,9 +23,17 @@ source ./venv/bin/activate
 pip3 install --upgrade pip
 pip3 install -r requirements.txt
 
-# config_path, data_split_seed, lr, batch_size, epochs_num
-# deepmirtar BS=x
-# miraw BS=x
-# mirtarraw BS=x
+# GCN MAX, GAT AND SAGE ADD
+# N_GNN_LAYERS GAT: 5, SAGE:5, GCN: 3
+# N_FC_LAYERS:   GAT: 2 , SAGE: 3, GCN: 2
+# GNN_HIDDEN_SIZE: GAT: 256, SAGE: 256, GCN: 128
+# FC_HIDDEN_SIZE: GAT: 128, SAGE: 256, GCN: 512
+# BATCH_SIZE: GAT: 128, SAGE: 128, GCN: 128 
 # config_path, gnn_layer_type (GCN, GRAPHSAGE, GAT), global_pooling (MAX,MEAN,ADD), gnn_hidden_size, n_gnn_layers, fc_hidden_size, n_fc_layers, dropout_rate, data_split_seed, lr, batch_size, epochs_num, model_dir
-python3 experiments/graphtar/gnn_w2v.py data_modules/configs/graphtar_config_deepmirtar_w2v.json GCN MAX 64 2 64 2 0.4 $SLURM_ARRAY_TASK_ID 0.001 128 1000 experiments/graph/models
+# BATCH_SIZE: Deepmirtar: GAT: 128, SAGE: 128, GCN: 128 
+#             miraw: GAT: 512, SAGE: 32, GCN: 64 
+#               mitarraw: GAT: 512, SAGE: 256, GCN: 64
+
+# python3 experiments/graphtar/gnn_w2v.py data_modules/configs/graphtar_config_mirtarraw_w2v.json GCN MAX 128 3 512 2 0.4 $SLURM_ARRAY_TASK_ID 0.001 64 1000 experiments/graph/models
+# python3 experiments/graphtar/gnn_w2v.py data_modules/configs/graphtar_config_mirtarraw_w2v.json SAGE ADD 256 5 256 3 0.4 $SLURM_ARRAY_TASK_ID 0.001 256 1000 experiments/giaph/models
+python3 experiments/graphtar/gnn_w2v.py data_modules/configs/graphtar_config_mirtarraw_w2v.json GAT ADD 256 5 128 2 0.4 $SLURM_ARRAY_TASK_ID 0.001 512 1000 experiments/graph/models
