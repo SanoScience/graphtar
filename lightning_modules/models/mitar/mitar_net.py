@@ -11,7 +11,7 @@ class MitarNet(nn.Module):
         self.embedding_dim = 5
         self.embedding = nn.Sequential(
             nn.Flatten(),
-            nn.Linear(input_size * n_embeddings, input_size * self.embedding_dim),
+            nn.Linear(input_size * n_embeddings, input_size * n_embeddings),
         )
         self.conv = nn.Sequential(
             nn.Conv1d(self.embedding_dim, n_filters, kernel_size),

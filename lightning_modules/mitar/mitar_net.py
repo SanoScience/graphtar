@@ -17,6 +17,9 @@ class MitarNetLM(pl.LightningModule):
         self.accuracy = Accuracy()
         self.f1 = F1Score(1)
 
+    def forward(self, x):
+        return self.model(x)
+
     def training_step(self, batch, batch_idx):
         x, y = torch.squeeze(batch[self.x_key]), batch[self.y_key]
         y_hat = self.model(x)

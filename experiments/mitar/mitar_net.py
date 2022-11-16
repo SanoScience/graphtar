@@ -34,10 +34,10 @@ neptune_logger.run['sys/tags'].add(["mitar_architecture"])
 data_module = InteractionDataModule(config_path, int(batch_size), int(data_split_seed))
 x_key, y_key = data_module.get_batch_keys()
 
-n_embeddings = sum([transform.target_length for transform in data_module.dataset_config.transform.transforms if
-                    type(transform) is Pad])
+input_size = sum([transform.target_length for transform in data_module.dataset_config.transform.transforms if
+                  type(transform) is Pad])
 
-module = MitarNetLM(5, n_embeddings, float(lr), x_key, y_key)
+module = MitarNetLM(5, input_size, float(lr), x_key, y_key)
 
 checkpoint_callback = ModelCheckpoint(dirpath=model_dir,
                                       filename="mitar_net_{}_{}_{}_{}".format(config_name, batch_size, data_split_seed,
