@@ -11,24 +11,24 @@ from lightning_modules.models.graphtar.gnn import LayerType, GlobalPoolingType
 
 if __name__ == "__main__":
     configs = [
-        ("GCN", 128, "deepmirtar", 128, 3, "MAX", 512, 2, 0.4, 0.001),
-        ("GCN", 64, "miraw", 128, 3, "MAX", 512, 2, 0.4, 0.001),
-        ("GCN", 64, "mirtarraw", 128, 3, "MAX", 512, 2, 0.4, 0.001),
+        # ("GCN", 128, "deepmirtar", 128, 3, "MAX", 512, 2, 0.4, 0.001),
+        # ("GCN", 64, "miraw", 128, 3, "MAX", 512, 2, 0.4, 0.001),
+        # ("GCN", 64, "mirtarraw", 128, 3, "MAX", 512, 2, 0.4, 0.001),
         ("GAT", 128, "deepmirtar", 256, 5, "ADD", 128, 2, 0.4, 0.001),
         ("GAT", 512, "miraw", 256, 5, "ADD", 128, 2, 0.4, 0.001),
-        ("GAT", 512, "mirtarraw", 256, 5, "ADD", 128, 2, 0.4, 0.001),
+        # ("GAT", 512, "mirtarraw", 256, 5, "ADD", 128, 2, 0.4, 0.001),
         ("GRAPHSAGE", 128, "deepmirtar", 256, 5, "ADD", 256, 3, 0.4, 0.001),
-        ("GRAPHSAGE", 32, "miraw", 256, 5, "ADD", 256, 3, 0.4, 0.001),
-        ("GRAPHSAGE", 256, "mirtarraw", 256, 5, "ADD", 256, 3, 0.4, 0.001),
+        # ("GRAPHSAGE", 32, "miraw", 256, 5, "ADD", 256, 3, 0.4, 0.001),
+        # ("GRAPHSAGE", 256, "mirtarraw", 256, 5, "ADD", 256, 3, 0.4, 0.001),
     ]
-    seeds = [418, 627, 960, 426, 16, 523, 708, 541, 747, 897, 714, 515, 127, 657, 662, 284, 595, 852, 734, 136, 394,
-             321, 200, 502, 786, 817, 411, 264, 929, 407]
+    seeds = [411, 515]
+    model_dir = ""
 
     for config in configs:
         for seed in seeds:
             gnn_layer_type, batch_size, dataset_type, graph_layer_size, n_gnn_layers, global_pooling, fc_layer_size, n_fc_layers, dropout_rate, lr = config
-            model_path = "./experiments/graphtar/models/graphtar_net_graphtar_config_{}_w2v_{}_{}_{}_0.001.ckpt".format(
-                dataset_type, gnn_layer_type, batch_size, seed)
+            model_path = "{}/graphtar_net_graphtar_config_{}_w2v_{}_{}_{}_0.001.ckpt".format(
+                model_dir, dataset_type, gnn_layer_type, batch_size, seed)
             config_path = "./data_modules/configs/graphtar_config_{}_w2v.json".format(config[2])
             w2v_model_path_mirna = "./data_modules/datasets/transforms/word2vec/models/word2vec_{}_{}_mirna.model".format(
                 dataset_type, seed)

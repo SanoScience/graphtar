@@ -14,7 +14,7 @@ if __name__ == "__main__":
     seeds = [418, 627, 960, 426, 16, 523, 708, 541, 747, 897, 714, 515, 127, 657, 662, 284, 595, 852, 734, 136, 394,
              321, 200, 502, 786, 817, 411, 264, 929, 407]
 
-    model_dir = "/media/janprz/Seagate Expansion Drive/article_sano/trained_models/deepmirtar"
+    model_dir = ""
 
     for config in configs:
         for seed in seeds:

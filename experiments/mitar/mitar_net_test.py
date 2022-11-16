@@ -17,7 +17,7 @@ if __name__ == "__main__":
 
     # deepmirtar_config_128_929_0.001
 
-    model_dir = "/media/janprz/Seagate Expansion Drive/article_sano/trained_models/mitar"
+    model_dir = ""
 
     for config in configs:
         for seed in seeds:
