@@ -14,7 +14,7 @@ class GraphInteractionDataModule(InteractionDataModule):
         self.transform = transform
 
     def setup(self, stage: Optional[str] = None):
-        if stage == "fit":
+        if stage == "fit" or stage == "test":
             if not self.transform:
                 interaction_full = InteractionGraphDataset(self.dataset_config.csv_path,
                                                            transform=self.dataset_config.transform)
@@ -22,11 +22,12 @@ class GraphInteractionDataModule(InteractionDataModule):
                 interaction_full = InteractionGraphDataset(self.dataset_config.csv_path,
                                                            transform=self.transform)
             self.initialize_train_val_splits(interaction_full)
-        if stage == "test":
-            raise NotImplementedError("Test stage not implemented")
 
     def train_dataloader(self):
         return DataLoader(self.train_data, batch_size=self.batch_size)
 
     def val_dataloader(self):
         return DataLoader(self.val_data, batch_size=self.batch_size)
+
+    def test_dataloader(self):
+        return DataLoader(self.test_data, batch_size=self.batch_size)
