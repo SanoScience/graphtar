@@ -11,11 +11,23 @@ from lightning_modules.models.graphtar.gnn import GNN, LayerType, GlobalPoolingT
 
 
 class GnnLM(pl.LightningModule):
-    def __init__(self, layer_type: LayerType, graph_layer_sizes: List[Tuple[int, int]],
-                 global_pooling: GlobalPoolingType, hidden_layer_sizes: List[Tuple[int, int]], dropout_rate: float,
-                 lr: float):
+    def __init__(
+        self,
+        layer_type: LayerType,
+        graph_layer_sizes: List[Tuple[int, int]],
+        global_pooling: GlobalPoolingType,
+        hidden_layer_sizes: List[Tuple[int, int]],
+        dropout_rate: float,
+        lr: float,
+    ):
         super().__init__()
-        self.model = GNN(layer_type, graph_layer_sizes, global_pooling, hidden_layer_sizes, dropout_rate)
+        self.model = GNN(
+            layer_type,
+            graph_layer_sizes,
+            global_pooling,
+            hidden_layer_sizes,
+            dropout_rate,
+        )
         self.lr = lr
         self.accuracy = Accuracy()
         self.f1 = F1Score(1)
@@ -43,5 +55,9 @@ class GnnLM(pl.LightningModule):
 
     def configure_optimizers(self):
         optimizer = torch.optim.Adam(self.parameters(), lr=self.lr)
-        scheduler = ReduceLROnPlateau(optimizer, 'min', factor=0.1, patience=10, min_lr=1e-8)
-        return [optimizer], [{"scheduler": scheduler, "monitor": "val_loss", "interval": "epoch"}]
+        scheduler = ReduceLROnPlateau(
+            optimizer, "min", factor=0.1, patience=10, min_lr=1e-8
+        )
+        return [optimizer], [
+            {"scheduler": scheduler, "monitor": "val_loss", "interval": "epoch"}
+        ]

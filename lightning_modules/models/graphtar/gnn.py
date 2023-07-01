@@ -5,7 +5,11 @@ from typing import Tuple, List
 import torch.nn as nn
 from torch.nn import ModuleList
 from torch_geometric.nn import GCNConv, GATv2Conv, SAGEConv
-from torch_geometric.nn.glob.glob import global_add_pool, global_max_pool, global_mean_pool
+from torch_geometric.nn.glob.glob import (
+    global_add_pool,
+    global_max_pool,
+    global_mean_pool,
+)
 
 
 def get_sage_conv(in_channels: int, out_channels: int):
@@ -22,9 +26,6 @@ class LayerType(Enum):
     GAT = partial(get_gat_conv)
 
 
-get_gat_conv
-
-
 class GlobalPoolingType(Enum):
     MEAN = partial(global_mean_pool)
     ADD = partial(global_add_pool)
@@ -32,11 +33,19 @@ class GlobalPoolingType(Enum):
 
 
 class GNN(nn.Module):
-    def __init__(self, layer_type: LayerType, graph_layer_sizes: List[Tuple[int, int]],
-                 global_pooling: GlobalPoolingType, hidden_layer_sizes: List[Tuple[int, int]], dropout_rate: float):
+    def __init__(
+        self,
+        layer_type: LayerType,
+        graph_layer_sizes: List[Tuple[int, int]],
+        global_pooling: GlobalPoolingType,
+        hidden_layer_sizes: List[Tuple[int, int]],
+        dropout_rate: float,
+    ):
         super().__init__()
 
-        self.graph_layers = ModuleList([layer_type.value(sizes[0], sizes[1]) for sizes in graph_layer_sizes])
+        self.graph_layers = ModuleList(
+            [layer_type.value(sizes[0], sizes[1]) for sizes in graph_layer_sizes]
+        )
         self.global_pooling_fn = global_pooling
         self.dropout_rate = dropout_rate
         self.classifier = nn.Sequential(
@@ -56,5 +65,5 @@ class GNN(nn.Module):
         return nn.Sequential(
             nn.Linear(hidden_layer_size[0], hidden_layer_size[1]),
             nn.ReLU(),
-            nn.Dropout(self.dropout_rate)
+            nn.Dropout(self.dropout_rate),
         )

@@ -18,8 +18,9 @@ class MitarNet(nn.Module):
             nn.MaxPool1d(2),
             nn.Dropout(0.2),
         )
-        self.birnn = nn.LSTM(n_filters, lstm_hidden_size, bidirectional=True,
-                             batch_first=True)
+        self.birnn = nn.LSTM(
+            n_filters, lstm_hidden_size, bidirectional=True, batch_first=True
+        )
 
         self.classifier = nn.Sequential(
             nn.Flatten(),
@@ -27,12 +28,14 @@ class MitarNet(nn.Module):
             nn.Linear((input_size - (kernel_size - 1)) // 2 * 2 * lstm_hidden_size, 16),
             nn.ReLU(),
             nn.Dropout(0.2),
-            nn.Linear(16, 1)
+            nn.Linear(16, 1),
         )
 
     def forward(self, x):
         x = self.embedding(x)
-        x = torch.reshape(x, (x.shape[0], self.embedding_dim, x.shape[1] // self.embedding_dim))
+        x = torch.reshape(
+            x, (x.shape[0], self.embedding_dim, x.shape[1] // self.embedding_dim)
+        )
         x = self.conv(x)
         x = self.birnn(x.permute(0, 2, 1))[0]
         return self.classifier(x)

@@ -15,4 +15,4 @@ class ToTensor(JSONSerializable, object):
         return sample
 
     def to_json(self):
-        return {'keys': self.keys}
+        return {"keys": self.keys}

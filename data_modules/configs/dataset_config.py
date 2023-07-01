@@ -5,12 +5,16 @@ from typing import NamedTuple, Tuple, Dict
 from torchvision.transforms.transforms import Compose
 
 from data_modules.datasets.transforms.json_serializable import JSONSerializable
+
 # noinspection PyUnresolvedReferences
 from data_modules.datasets.transforms.merge import Merge
+
 # noinspection PyUnresolvedReferences
 from data_modules.datasets.transforms.pad import Pad
+
 # noinspection PyUnresolvedReferences
 from data_modules.datasets.transforms.to_one_hot import ToOneHot
+
 # noinspection PyUnresolvedReferences
 from data_modules.datasets.transforms.to_tensor import ToTensor
 
@@ -24,7 +28,6 @@ class DatasetConfig(NamedTuple):
 
 
 class DatasetConfigEncoder(JSONEncoder):
-
     def default(self, obj):
         if isinstance(obj, int) or isinstance(obj, str):
             return obj
@@ -44,8 +47,10 @@ class DatasetConfigEncoder(JSONEncoder):
 class DatasetConfigDecoder:
     @staticmethod
     def object_hook(obj):
-        if 'transform' in obj.keys():
-            obj['transform'] = DatasetConfigDecoder.deserialize_transforms(obj['transform'])
+        if "transform" in obj.keys():
+            obj["transform"] = DatasetConfigDecoder.deserialize_transforms(
+                obj["transform"]
+            )
         return obj
 
     @staticmethod
@@ -54,7 +59,9 @@ class DatasetConfigDecoder:
         for transform in transforms:
             transform_key = list(transform.keys())[0]
             cls: JSONSerializable = getattr(sys.modules[__name__], transform_key)
-            transforms_initialized.append(DatasetConfigDecoder.from_json(cls, transform[transform_key]))
+            transforms_initialized.append(
+                DatasetConfigDecoder.from_json(cls, transform[transform_key])
+            )
         transform = Compose(transforms_initialized)
         return transform
 

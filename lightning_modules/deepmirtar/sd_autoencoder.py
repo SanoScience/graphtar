@@ -4,12 +4,15 @@ import torch.nn as nn
 import torch.nn.functional as F
 from torch.optim.lr_scheduler import ReduceLROnPlateau
 
-from lightning_modules.models.deepmirtar.denoising_autoencoder import DenoisingAutoencoder
+from lightning_modules.models.deepmirtar.denoising_autoencoder import (
+    DenoisingAutoencoder,
+)
 
 
 class SdAutoencoderLM(pl.LightningModule):
-    def __init__(self, initial_da: DenoisingAutoencoder, x_key: str,
-                 y_key: str, lr: float):
+    def __init__(
+        self, initial_da: DenoisingAutoencoder, x_key: str, y_key: str, lr: float
+    ):
         super().__init__()
         self.sda = nn.ModuleList([initial_da])
         self.x_key = x_key
@@ -46,8 +49,12 @@ class SdAutoencoderLM(pl.LightningModule):
 
     def configure_optimizers(self):
         optimizer = torch.optim.Adam(self.parameters(), lr=self.lr)
-        scheduler = ReduceLROnPlateau(optimizer, 'min', factor=0.1, patience=10, min_lr=1e-8)
-        return [optimizer], [{"scheduler": scheduler, "monitor": "val_loss", "interval": "epoch"}]
+        scheduler = ReduceLROnPlateau(
+            optimizer, "min", factor=0.1, patience=10, min_lr=1e-8
+        )
+        return [optimizer], [
+            {"scheduler": scheduler, "monitor": "val_loss", "interval": "epoch"}
+        ]
 
     def append_module(self, module: nn.Module):
         self.sda.append(module)

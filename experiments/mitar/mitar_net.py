@@ -18,7 +18,7 @@ neptune_logger = NeptuneLogger(
 )
 
 config_path, data_split_seed, lr, batch_size, epochs_num, model_dir = sys.argv[1:]
-config_name = config_path.split('/')[-1].split('.')[0]
+config_name = config_path.split("/")[-1].split(".")[0]
 
 hyperparams = {
     "config_path": config_path,
@@ -26,25 +26,40 @@ hyperparams = {
     "lr": lr,
     "batch_size": batch_size,
     "epochs_num": epochs_num,
-    "model_dir": model_dir
+    "model_dir": model_dir,
 }
 neptune_logger.log_hyperparams(hyperparams)
-neptune_logger.run['sys/tags'].add(["mitar_architecture"])
+neptune_logger.run["sys/tags"].add(["mitar_architecture"])
 
 data_module = InteractionDataModule(config_path, int(batch_size), int(data_split_seed))
 x_key, y_key = data_module.get_batch_keys()
 
-input_size = sum([transform.target_length for transform in data_module.dataset_config.transform.transforms if
-                  type(transform) is Pad])
+input_size = sum(
+    [
+        transform.target_length
+        for transform in data_module.dataset_config.transform.transforms
+        if type(transform) is Pad
+    ]
+)
 
 module = MitarNetLM(5, input_size, float(lr), x_key, y_key)
 
-checkpoint_callback = ModelCheckpoint(dirpath=model_dir,
-                                      filename="mitar_net_{}_{}_{}_{}".format(config_name, batch_size, data_split_seed,
-                                                                              lr), save_top_k=1, monitor="val_loss")
+checkpoint_callback = ModelCheckpoint(
+    dirpath=model_dir,
+    filename="mitar_net_{}_{}_{}_{}".format(
+        config_name, batch_size, data_split_seed, lr
+    ),
+    save_top_k=1,
+    monitor="val_loss",
+)
 
-trainer = Trainer(gpus=1, max_epochs=int(epochs_num),
-                  callbacks=[EarlyStopping(monitor="val_loss", mode="min", patience=100), checkpoint_callback],
-                  logger=neptune_logger
-                  )
+trainer = Trainer(
+    gpus=1,
+    max_epochs=int(epochs_num),
+    callbacks=[
+        EarlyStopping(monitor="val_loss", mode="min", patience=100),
+        checkpoint_callback,
+    ],
+    logger=neptune_logger,
+)
 trainer.fit(module, datamodule=data_module)

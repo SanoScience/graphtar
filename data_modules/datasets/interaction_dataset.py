@@ -8,9 +8,9 @@ class InteractionDataset(Dataset):
     def __init__(self, csv_file_path: str, transform=None):
         self.data_df = pd.read_csv(csv_file_path, index_col=0)
         self.transform = transform
-        self.mirna_key = 'mirna'
-        self.target_key = 'target'
-        self.label_key = 'label'
+        self.mirna_key = "mirna"
+        self.target_key = "target"
+        self.label_key = "label"
 
     def __len__(self):
         return len(self.data_df)

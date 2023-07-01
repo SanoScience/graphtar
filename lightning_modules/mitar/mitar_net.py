@@ -8,7 +8,9 @@ from lightning_modules.models.mitar.mitar_net import MitarNet
 
 
 class MitarNetLM(pl.LightningModule):
-    def __init__(self, n_embeddings: int, input_size: int, lr: float, x_key: str, y_key: str):
+    def __init__(
+        self, n_embeddings: int, input_size: int, lr: float, x_key: str, y_key: str
+    ):
         super().__init__()
         self.model = MitarNet(n_embeddings=n_embeddings, input_size=input_size)
         self.x_key = x_key
@@ -42,5 +44,9 @@ class MitarNetLM(pl.LightningModule):
 
     def configure_optimizers(self):
         optimizer = torch.optim.Adam(self.parameters(), lr=self.lr)
-        scheduler = ReduceLROnPlateau(optimizer, 'min', factor=0.1, patience=10, min_lr=1e-8)
-        return [optimizer], [{"scheduler": scheduler, "monitor": "val_loss", "interval": "epoch"}]
+        scheduler = ReduceLROnPlateau(
+            optimizer, "min", factor=0.1, patience=10, min_lr=1e-8
+        )
+        return [optimizer], [
+            {"scheduler": scheduler, "monitor": "val_loss", "interval": "epoch"}
+        ]

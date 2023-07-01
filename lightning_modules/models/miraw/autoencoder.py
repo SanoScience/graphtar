@@ -15,7 +15,7 @@ class Autoencoder(nn.Module):
             nn.Linear(300, 150),
             nn.ReLU(),
             nn.Linear(150, 100),
-            nn.ReLU()
+            nn.ReLU(),
         )
         self.decoder = nn.Sequential(
             nn.Linear(100, 150),

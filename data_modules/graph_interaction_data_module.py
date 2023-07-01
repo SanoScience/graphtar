@@ -8,7 +8,13 @@ from data_modules.interaction_data_module import InteractionDataModule
 
 
 class GraphInteractionDataModule(InteractionDataModule):
-    def __init__(self, transforms_config: str, batch_size: int, data_split_seed: int, transform: Compose = None):
+    def __init__(
+        self,
+        transforms_config: str,
+        batch_size: int,
+        data_split_seed: int,
+        transform: Compose = None,
+    ):
         super().__init__(transforms_config, batch_size, data_split_seed)
         self.batch_size = batch_size
         self.transform = transform
@@ -16,11 +22,14 @@ class GraphInteractionDataModule(InteractionDataModule):
     def setup(self, stage: Optional[str] = None):
         if stage == "fit" or stage == "test":
             if not self.transform:
-                interaction_full = InteractionGraphDataset(self.dataset_config.csv_path,
-                                                           transform=self.dataset_config.transform)
+                interaction_full = InteractionGraphDataset(
+                    self.dataset_config.csv_path,
+                    transform=self.dataset_config.transform,
+                )
             else:
-                interaction_full = InteractionGraphDataset(self.dataset_config.csv_path,
-                                                           transform=self.transform)
+                interaction_full = InteractionGraphDataset(
+                    self.dataset_config.csv_path, transform=self.transform
+                )
             self.initialize_train_val_splits(interaction_full)
 
     def train_dataloader(self):
