@@ -127,3 +127,12 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+
+# Word2vec models
+*.model
+
+# Data
+*.csv
+
+# VS Code settings
+settings.json
