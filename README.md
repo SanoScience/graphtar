@@ -123,10 +123,16 @@ The directory structure is provided below, with short explanation for the most n
 Dataset used in this study is available through a [sharepoint directory link](https://sanoscience.sharepoint.com/:f:/s/Extreme-scale/Ek1enAAlH-dFsuvSmIITBUoB57LahcAc6B8I_ihxA7B3Mg?e=lTTnab).
 The ```.csv``` files should be placed in the ```/data``` directory in the project's root.
 ## Models
-Checkpoints for the trained models are available through a [sharepoint directory link](https://sanoscience.sharepoint.com/:f:/s/Extreme-scale/EvcvaoIBYrpHiwmg9VLXV7ABTwpESOw5gTyroy53o3NnAA?e=H8MszJ).
-The checkpoints should be placed in ```/experiments/[METHOD]/models```, where [METHOD] is the respective method. E.g. for GraphTar, the GraphTar models should be placed in ```/experiments/graphtar/models``` directory.
+### Word2vec models
+For GraphTar models, the data was first encoded with the use of word2vec models pretrained on the training data. For each dataset and split, a separate model was trained. The trained models are available through a [sharepoint directory link](https://sanoscience.sharepoint.com/:f:/s/Extreme-scale/Epa2-qoXV-ZPn4lbyQhSSAkBaDmJcLzUYP7QLcITFhz8mQ?e=u64viI).
+These models should be placed in ```data_modules/datasets/transforms/word2vec/models/``` directory, so that they are correctly used by training and evaluation scripts.
+### Target prediction models
+Checkpoints for the trained traget prediction models are available through a [sharepoint directory link](https://sanoscience.sharepoint.com/:f:/s/Extreme-scale/EvcvaoIBYrpHiwmg9VLXV7ABTwpESOw5gTyroy53o3NnAA?e=SJ9sEu).
+The checkpoints should be placed in ```experiments/[METHOD]/models```, where [METHOD] is the respective method. E.g. for GraphTar, the GraphTar models should be placed in ```experiments/graphtar/models``` directory.
+
 ## Experiments reproduction
 ### Environment setup
 ### Running models training
+#### Training word2vec models
+#### Training target prediction methods
 ### Running models evaluation
-
