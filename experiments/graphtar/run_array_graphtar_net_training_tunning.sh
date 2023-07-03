@@ -24,4 +24,4 @@ pip3 install --upgrade pip
 pip3 install -r requirements.txt
 
 # config_path, gnn_layer_type (GCN, GRAPHSAGE, GAT), global_pooling (MAX,MEAN,ADD), gnn_hidden_size, n_gnn_layers, fc_hidden_size, n_fc_layers, dropout_rate, data_split_seed, lr, batch_size, epochs_num, model_dir
-python3 experiments/graphtar/gnn.py data_modules/configs/graphtar_config_deepmirtar.json GRAPHSAGE ADD $SLURM_ARRAY_TASK_ID 7 64 4 0.4 1234 0.001 128 1000 experiments/graph/models
+python3 experiments/graphtar/gnn.py data_modules/configs/graphtar_config_deepmirtar.json GRAPHSAGE ADD $SLURM_ARRAY_TASK_ID 7 64 4 0.4 1234 0.001 128 1000 experiments/graphtar/models

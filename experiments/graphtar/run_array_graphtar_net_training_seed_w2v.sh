@@ -34,6 +34,4 @@ pip3 install -r requirements.txt
 #             miraw: GAT: 512, SAGE: 32, GCN: 64 
 #               mitarraw: GAT: 512, SAGE: 256, GCN: 64
 
-# python3 experiments/graphtar/gnn_w2v.py data_modules/configs/graphtar_config_mirtarraw_w2v.json GCN MAX 128 3 512 2 0.4 $SLURM_ARRAY_TASK_ID 0.001 64 1000 experiments/graph/models
-# python3 experiments/graphtar/gnn_w2v.py data_modules/configs/graphtar_config_mirtarraw_w2v.json SAGE ADD 256 5 256 3 0.4 $SLURM_ARRAY_TASK_ID 0.001 256 1000 experiments/giaph/models
-python3 experiments/graphtar/gnn_w2v.py data_modules/configs/graphtar_config_mirtarraw_w2v.json GAT ADD 256 5 128 2 0.4 $SLURM_ARRAY_TASK_ID 0.001 512 1000 experiments/graph/models
+python3 experiments/graphtar/gnn_w2v.py data_modules/configs/graphtar_config_mirtarraw_w2v.json GAT ADD 256 5 128 2 0.4 $SLURM_ARRAY_TASK_ID 0.001 512 1000 experiments/graphtar/models

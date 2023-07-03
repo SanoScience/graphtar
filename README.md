@@ -119,8 +119,12 @@ The directory structure is provided below, with short explanation for the most n
  ┗ ┗ ┗ ┗ 📜mitar_net.py
 ```
 
-## Data
+## Dataset
+Dataset used in this study is available through a [sharepoint directory link](https://sanoscience.sharepoint.com/:f:/s/Extreme-scale/Ek1enAAlH-dFsuvSmIITBUoB57LahcAc6B8I_ihxA7B3Mg?e=lTTnab).
+The ```.csv``` files should be placed in the ```/data``` directory in the project's root.
 ## Models
+Checkpoints for the trained models are available through a [sharepoint directory link](https://sanoscience.sharepoint.com/:f:/s/Extreme-scale/EvcvaoIBYrpHiwmg9VLXV7ABTwpESOw5gTyroy53o3NnAA?e=H8MszJ).
+The checkpoints should be placed in ```/experiments/[METHOD]/models```, where [METHOD] is the respective method. E.g. for GraphTar, the GraphTar models should be placed in ```/experiments/graphtar/models``` directory.
 ## Experiments reproduction
 ### Environment setup
 ### Running models training
