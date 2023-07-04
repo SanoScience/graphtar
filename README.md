@@ -130,9 +130,49 @@ These models should be placed in ```data_modules/datasets/transforms/word2vec/mo
 Checkpoints for the trained traget prediction models are available through a [sharepoint directory link](https://sanoscience.sharepoint.com/:f:/s/Extreme-scale/EvcvaoIBYrpHiwmg9VLXV7ABTwpESOw5gTyroy53o3NnAA?e=SJ9sEu).
 The checkpoints should be placed in ```experiments/[METHOD]/models```, where [METHOD] is the respective method. E.g. for GraphTar, the GraphTar models should be placed in ```experiments/graphtar/models``` directory.
 
+## Results
+To calculate metric scores, we have saved data frames with predictions for all target prediction method-dataset-data split combinations to dataframes (more on how they are used in the last section). If one wants to skip the prediction generation step, the data frames are available through a [sharepoint directory link](). They should be placed in ```experiments/[METHOD]/results``` directory, depending on the target prediction method. E.g. for GraphTar, the respective dataframes should be placed in ```experiments/graphtar/results``` directory.
+
 ## Experiments reproduction
 ### Environment setup
+With Python 3.8.10 as base interpreter, to reproduce the experiments, one has to first set up the virtual environment:
+```
+python -m venv venv
+source venv/bin/activate
+pip install -r requirements.txt
+```
 ### Running models training
 #### Training word2vec models
+Pre-training Word2vec models are required to run GraphTar method with word2vec-based sequence encoding. To generate trained models, the notebook ```data_modules/datasets/transforms/word2vec/models/generate_w2v_models.ipynb``` can be used. Opening the notebook in ```jupyter-lab``` and running all cells will train and save models for every split-dataset combination (in experiments we use 30 splits and 3 datasets).
 #### Training target prediction methods
+To train target prediction models, one can use scripts from the ```experiments/``` directory. Note, that to run the training successfully, one has to first download the data to the ```/data``` directory. Also, for GraphTar with word2vec based encoding, one needs to download or generate the models for every split and dataset, so that they are present in ```data_modules/datasets/transforms/word2vec/models/```
+To run the GraphTar training locally, one can use the ```experiments/graphtar/run_graphtar_net_training_tunning_local_w2v.sh``` script:
+```sh
+cd experiments/graphtar
+./run_graphtar_net_training_tunning_local_w2v.sh
+```
+In every bash script in the ```experiments/``` directory, the crucial two lines are:
+```sh
+# config_path, gnn_layer_type (GCN, GRAPHSAGE, GAT), global_pooling (MAX,MEAN,ADD), gnn_hidden_size, n_gnn_layers, fc_hidden_size, n_fc_layers, dropout_rate, data_split_seed, lr, batch_size, epochs_num, model_dir
+python3 experiments/graphtar/gnn_w2v.py data_modules/configs/graphtar_config_deepmirtar_w2v.json GAT ADD 64 2 64 2 0.4 1234 0.001 128 1000 experiments/graphtar/models
+```
+The commented line indicates the parameters passed to the ```gnn_w2v.py``` training script. By modifying this line, one can change the hyperparameters (dropout rate, lr, batch size, epochs number) as well as architecture (in case of GraphTar - node embedding method, number of graph embedding layers, node embedding size, number of fully connected layers and fc layers size). One can also change the data split seed used.
+
+To train a model for every data split seed used in the experiments, we used PLGrid computing resources through SLURM, by running an array job:
+```sh
+cd experiments/graphtar
+sbatch run_array_graphtar_net_training_tunning_w2v.sh
+```
+Note that for every node embedding method, a different set of hyperparameters was used, and that you have to set them up manually before execution, within the ```run_array_graphtar_net_training_tunning_w2v.sh``` script.
 ### Running models evaluation
+Note: for steps below, one has to download the data and the models first (see previous sections)!
+We evaluated the models in two steps. First, for every model, dataset and split combination, we have generated a data frame in ```.csv``` format. In this data frame we stored the predictions of the model as well as ground truth. To generate the data frames, one can use scripts from the ```experiments/``` directory with ```_test``` suffix. E.g. for GraphTar:
+```
+cd experiments/graphtar
+./run_graphtar_net_w2v_test.sh
+```
+the data frames will be generated to ```experiments/[METHOD]/results``` directory, depending on the target prediction method. For GraphTar, it will be ```experiments/graphtar/results``` directory.
+
+After generating the data frames, we used a jupyter notebook to analyse the results. The notebook can be found in ```analysis/results_analysis/results_analysis.ipynb```. Running all cells of the notebook will provide metric scores for all target prediction methods and datasets. Note, that the provided results are averaged across data splits.
+
+
