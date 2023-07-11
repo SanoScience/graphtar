@@ -45,7 +45,7 @@ if __name__ == "__main__":
     ]
 
 
-    model_dir = ""
+    model_dir = "experiments/miraw/models"
 
     for config in configs:
         for seed in seeds:

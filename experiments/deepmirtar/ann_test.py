@@ -44,7 +44,7 @@ if __name__ == "__main__":
         407,
     ]
 
-    model_dir = ""
+    model_dir = "experiments/deepmirtar/models"
 
     for config in configs:
         for seed in seeds:

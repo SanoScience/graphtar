@@ -55,7 +55,7 @@ if __name__ == "__main__":
         929,
         407,
     ]
-    model_dir = ""
+    model_dir = "experiments/graphtar/models"
 
     for config in configs:
         for seed in seeds:
