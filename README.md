@@ -10,9 +10,10 @@ We have developed GraphTar, a new target prediction method that uses a novel gra
 In this study, a novel miRNA target prediction approach called GraphTar is introduced. Results show that GraphTar is as effective as existing methods and even outperforms them in some cases, opening new avenues for further research. However, the expansion of available datasets is critical for advancing the field towards real-world applications.
 ## Repository structure
 The repository contains all the code used in the experiments. Specifically, it contains:
+- reproduction steps, with all links to data needed to reproduce the experiments, provided by the [GraphTar sharepoint directory](https://sanoscience.sharepoint.com/:f:/s/graphtar/Eh2aeNfcstZPtQ5sTnspgWoBZc9eryJvomJ-vDmri4BP2w?e=4x1vdi).
 - dataset integration
 - model configurations
-- [NeptuneAI](https://neptune.ai/?utm_source=googleads&utm_medium=googleads&utm_campaign=[SG][HI][brand][rsa][all]&utm_term=neptune%20ai&gclid=Cj0KCQjwnf-kBhCnARIsAFlg49000HIobJdPqbh6uM67AFWssPBLd74m5mFSLZgRatRrBEVPc-fmQ6EaAgHCEALw_wcB) integration, for experiment tracking. The integration was removed after performing experiments (see commit history), to aid reproducing experiments without NeptuneAI.
+- [NeptuneAI](https://neptune.ai/?utm_source=googleads&utm_medium=googleads&utm_campaign=[SG][HI][brand][rsa][all]&utm_term=neptune%20ai&gclid=Cj0KCQjwnf-kBhCnARIsAFlg49000HIobJdPqbh6uM67AFWssPBLd74m5mFSLZgRatRrBEVPc-fmQ6EaAgHCEALw_wcB) integration, for experiment tracking. The integration was removed after performing experiments (see commit history), to aid reproducing experiments without the need to set up this tool.
 - GraphTar method
 - state-of-the-art algorithms reproduced for comparison with GraphTar:
   - [miRAW: A deep learning-based approach to predict microRNA targets by analyzing whole microRNA transcripts](https://journals.plos.org/ploscompbiol/article?id=10.1371/journal.pcbi.1006185)
@@ -120,18 +121,18 @@ The directory structure is provided below, with short explanation for the most n
 ```
 
 ## Dataset
-Dataset used in this study is available through a [sharepoint directory link](https://sanoscience.sharepoint.com/:f:/s/Extreme-scale/Ek1enAAlH-dFsuvSmIITBUoB57LahcAc6B8I_ihxA7B3Mg?e=lTTnab).
+Dataset used in this study is available through [GraphTar sharepoint directory](https://sanoscience.sharepoint.com/:f:/s/graphtar/ErgU2YfS-OdLle6J7njRMOEBZ1kxjUxWKAqCeKna6_dxKQ?e=rf5Pi2).
 The ```.csv``` files should be placed in the ```/data``` directory in the project's root.
 ## Models
 ### Word2vec models
-For GraphTar models, the data was first encoded with the use of word2vec models pretrained on the training data. For each dataset and split, a separate model was trained. The trained models are available through a [sharepoint directory link](https://sanoscience.sharepoint.com/:f:/s/Extreme-scale/Epa2-qoXV-ZPn4lbyQhSSAkBaDmJcLzUYP7QLcITFhz8mQ?e=u64viI).
+For GraphTar models, the data was first encoded with the use of word2vec models pretrained on the training data. For each dataset and split, a separate model was trained. The trained word2vec models are available through [GraphTar sharepoint directory](https://sanoscience.sharepoint.com/:f:/s/graphtar/EhpQYk87MVZEpYD5n0SoE-QBpt1BWz3oJ-DPm1JOsDoOXg?e=ckWhvf).
 These models should be placed in ```data_modules/datasets/transforms/word2vec/models/``` directory, so that they are correctly used by training and evaluation scripts.
 ### Target prediction models
-Checkpoints for the trained traget prediction models are available through a [sharepoint directory link](https://sanoscience.sharepoint.com/:f:/s/Extreme-scale/EvcvaoIBYrpHiwmg9VLXV7ABTwpESOw5gTyroy53o3NnAA?e=SJ9sEu).
-The checkpoints should be placed in ```experiments/[METHOD]/models```, where [METHOD] is the respective method. E.g. for GraphTar, the GraphTar models should be placed in ```experiments/graphtar/models``` directory.
+Checkpoints for the trained traget prediction models are available through [GraphTar sharepoint directory](https://sanoscience.sharepoint.com/:f:/s/graphtar/EuwSMNa8qfRMke4hHVotMUgBLcr21ICuIxkf1_4zSJccsg?e=aKZ8gp).
+The checkpoints should be placed in ```experiments/[METHOD]/models```, where [METHOD] is the respective target prediction method. E.g. for GraphTar, the GraphTar models should be placed in ```experiments/graphtar/models``` directory.
 
 ## Results
-To calculate metric scores, we have saved data frames with predictions for all target prediction method-dataset-data split combinations to dataframes (more on how they are used in the last section). If one wants to skip the prediction generation step, the data frames are available through a [sharepoint directory link](). They should be placed in ```experiments/[METHOD]/results``` directory, depending on the target prediction method. E.g. for GraphTar, the respective dataframes should be placed in ```experiments/graphtar/results``` directory.
+To calculate metric scores, we have saved data frames with predictions for all target prediction method-dataset-data split combinations to dataframes (more on how they are used in the last section). If one wants to skip the prediction generation step, the data frames are available through [GraphTar sharepoint directory](https://sanoscience.sharepoint.com/:f:/s/graphtar/ErTJMZOksWBJsmko3kFOz-kBFlYdrRKb-6BtG6kUYudfOA?e=j3DlA0). They should be placed in ```experiments/[METHOD]/results``` directory, depending on the target prediction method. E.g. for GraphTar, the respective dataframes should be placed in ```experiments/graphtar/results``` directory.
 
 ## Experiments reproduction
 ### Environment setup
