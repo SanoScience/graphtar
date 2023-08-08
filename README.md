@@ -13,7 +13,7 @@ The repository contains all the code used in the experiments. Specifically, it c
 - reproduction steps, with all links to data needed to reproduce the experiments, provided by the [GraphTar sharepoint directory](https://sanoscience.sharepoint.com/:f:/s/graphtar/Eh2aeNfcstZPtQ5sTnspgWoBZc9eryJvomJ-vDmri4BP2w?e=4x1vdi).
 - dataset integration
 - model configurations
-- [NeptuneAI](https://neptune.ai/?utm_source=googleads&utm_medium=googleads&utm_campaign=[SG][HI][brand][rsa][all]&utm_term=neptune%20ai&gclid=Cj0KCQjwnf-kBhCnARIsAFlg49000HIobJdPqbh6uM67AFWssPBLd74m5mFSLZgRatRrBEVPc-fmQ6EaAgHCEALw_wcB) integration, for experiment tracking. The integration was removed after performing experiments (see commit history), to aid reproducing experiments without the need to set up this tool.
+- [NeptuneAI](https://neptune.ai/?utm_source=googleads&utm_medium=googleads&utm_campaign=[SG][HI][brand][rsa][all]&utm_term=neptune%20ai&gclid=Cj0KCQjwnf-kBhCnARIsAFlg49000HIobJdPqbh6uM67AFWssPBLd74m5mFSLZgRatRrBEVPc-fmQ6EaAgHCEALw_wcB) integration, for experiment tracking
 - GraphTar method
 - state-of-the-art algorithms reproduced for comparison with GraphTar:
   - [miRAW: A deep learning-based approach to predict microRNA targets by analyzing whole microRNA transcripts](https://journals.plos.org/ploscompbiol/article?id=10.1371/journal.pcbi.1006185)

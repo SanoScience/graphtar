@@ -1,12 +1,21 @@
 import sys
 
+from dotenv import dotenv_values
 from pytorch_lightning import Trainer
 from pytorch_lightning.callbacks import EarlyStopping, ModelCheckpoint
+from pytorch_lightning.loggers import NeptuneLogger
 
 from data_modules.graph_interaction_data_module import GraphInteractionDataModule
 from lightning_modules.graphtar.gnn import GnnLM
 from lightning_modules.models.graphtar.gnn import LayerType, GlobalPoolingType
 
+config = dotenv_values("neptune_config.env")
+
+neptune_logger = NeptuneLogger(
+    project=config["NEPTUNE_PROJECT"],
+    api_token=config["NEPTUNE_API_TOKEN"],
+    log_model_checkpoints=False,
+)
 
 (
     config_path,
@@ -40,6 +49,8 @@ hyperparams = {
     "epochs_num": int(epochs_num),
     "model_dir": model_dir,
 }
+neptune_logger.log_hyperparams(hyperparams)
+neptune_logger.run["sys/tags"].add(["graphtar_architecture"])
 
 data_module = GraphInteractionDataModule(
     config_path, int(batch_size), int(data_split_seed)
@@ -85,5 +96,6 @@ trainer = Trainer(
         EarlyStopping(monitor="val_loss", mode="min", patience=100),
         checkpoint_callback,
     ],
+    logger=neptune_logger,
 )
 trainer.fit(module, datamodule=data_module)

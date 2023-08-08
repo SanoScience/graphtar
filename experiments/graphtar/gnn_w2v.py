@@ -1,7 +1,9 @@
 import sys
 
+from dotenv import dotenv_values
 from pytorch_lightning import Trainer
 from pytorch_lightning.callbacks import EarlyStopping, ModelCheckpoint
+from pytorch_lightning.loggers import NeptuneLogger
 from torchvision.transforms import Compose
 
 from data_modules.datasets.transforms.to_tensor import ToTensor
@@ -11,6 +13,14 @@ from data_modules.datasets.transforms.word2vec.to_word2vec_embedding import (
 from data_modules.graph_interaction_data_module import GraphInteractionDataModule
 from lightning_modules.graphtar.gnn import GnnLM
 from lightning_modules.models.graphtar.gnn import LayerType, GlobalPoolingType
+
+config = dotenv_values("neptune_config.env")
+
+neptune_logger = NeptuneLogger(
+    project=config["NEPTUNE_PROJECT"],
+    api_token=config["NEPTUNE_API_TOKEN"],
+    log_model_checkpoints=False,
+)
 
 (
     config_path,
@@ -44,6 +54,8 @@ hyperparams = {
     "epochs_num": int(epochs_num),
     "model_dir": model_dir,
 }
+neptune_logger.log_hyperparams(hyperparams)
+neptune_logger.run["sys/tags"].add(["graphtar_architecture"])
 
 w2v_model_path_mirna = "./data_modules/datasets/transforms/word2vec/models/word2vec_{}_{}_mirna.model".format(
     config_path.split("_")[-2], data_split_seed
@@ -104,5 +116,6 @@ trainer = Trainer(
         EarlyStopping(monitor="val_loss", mode="min", patience=100),
         checkpoint_callback,
     ],
+    logger=neptune_logger,
 )
 trainer.fit(module, datamodule=data_module)

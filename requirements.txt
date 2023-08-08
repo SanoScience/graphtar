@@ -41,6 +41,7 @@ mkl-service==2.3.0
 monotonic==1.6
 msgpack==1.0.4
 multidict==5.2.0
+neptune-client==0.15.2
 networkx==2.5.1
 numpy==1.24.2
 oauthlib==3.2.0
