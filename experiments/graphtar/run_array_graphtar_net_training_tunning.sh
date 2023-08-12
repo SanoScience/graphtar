@@ -2,9 +2,9 @@
 
 #SBATCH -J graphtar_net_graphsage_add
 #SBATCH -N 1
-#SBATCH --tasks-per-node=3
+#SBATCH --tasks-per-node=4
 #SBATCH --time=12:00:00
-#SBATCH -A plgsano3
+#SBATCH -A plgsano4-gpu
 #SBATCH -p plgrid-gpu-v100
 #SBATCH --gres=gpu:1
 #SBATCH --output="graphtar_net.txt"

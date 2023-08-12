@@ -2,9 +2,9 @@
 
 #SBATCH -J deepmirtar_ann
 #SBATCH -N 1
-#SBATCH --tasks-per-node=3
+#SBATCH --tasks-per-node=4
 #SBATCH --time=02:00:00
-#SBATCH -A plgsano3
+#SBATCH -A plgsano4-gpu
 #SBATCH -p plgrid-gpu-v100
 #SBATCH --gres=gpu:1
 #SBATCH --output="deepmirtar_ann.txt"
