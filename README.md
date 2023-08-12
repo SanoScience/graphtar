@@ -135,12 +135,15 @@ The checkpoints should be placed in ```experiments/[METHOD]/models```, where [ME
 To calculate metric scores, we have saved data frames with predictions for all target prediction method-dataset-data split combinations to dataframes (more on how they are used in the last section). If one wants to skip the prediction generation step, the data frames are available through [GraphTar sharepoint directory](https://sanoscience.sharepoint.com/:f:/s/graphtar/ErTJMZOksWBJsmko3kFOz-kBFlYdrRKb-6BtG6kUYudfOA?e=j3DlA0). They should be placed in ```experiments/[METHOD]/results``` directory, depending on the target prediction method. E.g. for GraphTar, the respective dataframes should be placed in ```experiments/graphtar/results``` directory.
 
 ## Experiments reproduction
-### Environment setup
-With Python 3.8.10 as base interpreter, to reproduce the experiments, one has to first set up the virtual environment:
+### Environment setup - local
+With Python 3.8.6 as base interpreter, to reproduce the experiments, one has to first set up the virtual environment:
 ```
-python -m venv venv
-source venv/bin/activate
-pip install -r requirements.txt
+./venv_setup_local.sh
+```
+### Environment setup - hpc (plgrid)
+To set up the virtual environment you can schedule the following script:
+```
+sbatch venv_setup_slurm.sh
 ```
 ### Running models training
 #### Training word2vec models
