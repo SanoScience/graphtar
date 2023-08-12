@@ -2,6 +2,6 @@
 
 cd ../../
 
-export PYTHONPATH="${PYTHONPATH}:../"
+export PYTHONPATH="${PYTHONPATH}:./"
 
 python3 experiments/mitar/mitar_net_test.py

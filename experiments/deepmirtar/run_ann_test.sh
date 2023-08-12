@@ -2,6 +2,6 @@
 
 cd ../../
 
-export PYTHONPATH="${PYTHONPATH}:../"
+export PYTHONPATH="${PYTHONPATH}:./"
 
 python3 experiments/deepmirtar/ann_test.py
