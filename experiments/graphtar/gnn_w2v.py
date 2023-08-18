@@ -102,8 +102,8 @@ module = GnnLM(
 
 checkpoint_callback = ModelCheckpoint(
     dirpath=model_dir,
-    filename="graphtar_net_{}_{}_{}_{}_{}".format(
-        config_name, gnn_layer_type, batch_size, data_split_seed, lr
+    filename="graphtar_net_{}_{}_{}_{}_{}_{}_{}_{}".format(
+        config_name, gnn_layer_type, n_gnn_layers, gnn_hidden_size, global_pooling, batch_size, data_split_seed, lr
     ),
     save_top_k=1,
     monitor="val_loss",
