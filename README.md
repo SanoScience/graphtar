@@ -131,6 +131,9 @@ These models should be placed in ```data_modules/datasets/transforms/word2vec/mo
 Checkpoints for the trained traget prediction models are available through [GraphTar sharepoint directory](https://sanoscience.sharepoint.com/:f:/s/graphtar/EuwSMNa8qfRMke4hHVotMUgBLcr21ICuIxkf1_4zSJccsg?e=aKZ8gp).
 The checkpoints should be placed in ```experiments/[METHOD]/models```, where [METHOD] is the respective target prediction method. E.g. for GraphTar, the GraphTar models should be placed in ```experiments/graphtar/models``` directory.
 
+For ablation experiments, the models are stored in the [GraphTar sharepoint directory](https://sanoscience.sharepoint.com/:f:/s/graphtar/EhB0HorkRS9BlEnFcuZZK7IBeIWw8y6isRjOfW_byoaIbQ?e=mReBaR).
+
+
 ## Results
 To calculate metric scores, we have saved data frames with predictions for all target prediction method-dataset-data split combinations to dataframes (more on how they are used in the last section). If one wants to skip the prediction generation step, the data frames are available through [GraphTar sharepoint directory](https://sanoscience.sharepoint.com/:f:/s/graphtar/ErTJMZOksWBJsmko3kFOz-kBFlYdrRKb-6BtG6kUYudfOA?e=j3DlA0). They should be placed in ```experiments/[METHOD]/results``` directory, depending on the target prediction method. E.g. for GraphTar, the respective dataframes should be placed in ```experiments/graphtar/results``` directory.
 
@@ -169,6 +172,7 @@ sbatch run_array_graphtar_net_training_tunning_w2v.sh
 ```
 Note that for every node embedding method, a different set of hyperparameters was used, and that you have to set them up manually before execution, within the ```run_array_graphtar_net_training_tunning_w2v.sh``` script.
 ### Running models evaluation
+#### Comparison with the state of the art
 Note: for steps below, one has to download the data and the models first (see previous sections)!
 We evaluated the models in two steps. First, for every model, dataset and split combination, we have generated a data frame in ```.csv``` format. In this data frame we stored the predictions of the model as well as ground truth. To generate the data frames, one can use scripts from the ```experiments/``` directory with ```_test``` suffix. E.g. for GraphTar:
 ```
@@ -179,4 +183,9 @@ the data frames will be generated to ```experiments/[METHOD]/results``` director
 
 After generating the data frames, we used a jupyter notebook to analyse the results. The notebook can be found in ```analysis/results_analysis/results_analysis.ipynb```. Running all cells of the notebook will provide metric scores for all target prediction methods and datasets. Note, that the provided results are averaged across data splits.
 
-
+#### Ablation experiments
+Respectively to reproduce ablation experiments, after training models with the parameters described in the article, run the following ```
+cd experiments/graphtar
+./run_graphtar_net_w2v_test_ablation.sh
+```
+The results can be analysed with the jupyter notebook: ```analysis/results_analysis/ablation_results_analysis.ipynb```
